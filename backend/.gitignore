@@ -1,0 +1,33 @@
+# Dependency directories (Bağımlılıklar)
+node_modules/
+jspm_packages/
+
+# Environment variables (Hassas Bilgiler ve Şifreler)
+.env
+.env.production
+.env.development
+.env.local
+.env.*.local
+
+# Log files (Log Kayıtları)
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+*.log
+
+# Editor and OS config files (Editör ve İşletim Sistemi Kalıntıları)
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.DS_Store
+Thumbs.db
+
+# Build outputs (Eğer ileride TypeScript veya Derleme araçları kullanırsan)
+dist/
+build/
