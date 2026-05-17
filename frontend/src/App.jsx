@@ -1,37 +1,22 @@
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 
-function MainPage() {
-  return <h1>Main Page</h1>;
-}
+import PublicLayout from "./components/PublicLayout/PublicLayout";
+import PrivateLayout from "./components/PrivateLayout/PrivateLayout";
 
-function LoginPage() {
-  return <h1>Login Page</h1>;
-}
+import MainPage from "./pages/MainPage/MainPage";
+import DiaryPage from "./pages/DiaryPage/DiaryPage";
 
-function RegistrationPage() {
-  return <h1>Registration Page</h1>;
-}
-
-function DiaryPage() {
-  return <h1>Diary Page</h1>;
-}
-
-function CalculatorPage() {
-  return <h1>Calculator Page</h1>;
-}
-
-function App() {
+export default function App() {
   return (
     <Routes>
-      <Route path="/" element={<MainPage />} />
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/register" element={<RegistrationPage />} />
-      <Route path="/diary" element={<DiaryPage />} />
-      <Route path="/calculator" element={<CalculatorPage />} />
+      <Route element={<PublicLayout />}>
+        <Route path="/" element={<MainPage />} />
+        <Route path="/login" element={<h1>Login Page</h1>} />
+      </Route>
 
-      <Route path="*" element={<Navigate to="/" replace />} />
+      <Route element={<PrivateLayout />}>
+        <Route path="/diary" element={<DiaryPage />} />
+      </Route>
     </Routes>
   );
 }
-
-export default App;
