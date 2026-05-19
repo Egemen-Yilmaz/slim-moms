@@ -1,36 +1,8 @@
-import React from "react";
-
-const RegistrationPage = () => {
+export default function RegistrationPage() {
   return (
-    <div>
-      <h1>Registration Page</h1>
-
-      <form>
-        <label>
-          Name:
-          <input type="text" placeholder="name" />
-        </label>
-
-        <br />
-
-        <label>
-          Email:
-          <input type="email" placeholder="email" />
-        </label>
-
-        <br />
-
-        <label>
-          Password:
-          <input type="password" placeholder="password" />
-        </label>
-
-        <br />
-
-        <button type="button">Register</button>
-      </form>
+    <div style={{ padding: "50px", fontSize: "20px" }}>
+      <h1>✅ Registration Page</h1>
+      <p>Bu sayfa basit modda çalışıyor.</p>
     </div>
   );
-};
-
-export default RegistrationPage;
+}
