@@ -1,20 +1,24 @@
+import UserInfo from "../UserInfo/UserInfo";
+
 export default function RightSideBar({ summary, selectedDate }) {
   // Eğer henüz veri yüklenmediyse varsayılan boş şablon gösterilsin
   const {
     dailyCalorieIntake = 0,
     totalEatenCalories = 0,
     kcalLeft = 0,
-    notAllowedProducts = []
+    notAllowedProducts = [],
   } = summary || {};
 
   // Tüketim yüzdesi hesabı
-  const normalPercentage = dailyCalorieIntake > 0 
-    ? Math.round((totalEatenCalories / dailyCalorieIntake) * 100) 
-    : 0;
+  const normalPercentage =
+    dailyCalorieIntake > 0
+      ? Math.round((totalEatenCalories / dailyCalorieIntake) * 100)
+      : 0;
 
   return (
     <aside className="right-sidebar">
       <div style={{ padding: "20px" }}>
+        <UserInfo />
         <h3>Summary</h3>
         <p>Summary for: {selectedDate || "Select a date"}</p>
         <ul>
