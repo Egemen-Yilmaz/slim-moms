@@ -8,7 +8,7 @@ export default function DailyCaloriesForm({ openModal }) {
     height: "",
     age: "",
     targetWeight: "",
-    bloodType: "1",
+    bloodType: "0", // Başlangıç değerini gerçek kan grubu yaptık
   });
 
   const [loading, setLoading] = useState(false);
@@ -25,20 +25,20 @@ export default function DailyCaloriesForm({ openModal }) {
     setLoading(true);
 
     try {
-      // 🔥 BACKEND İLE %100 UYUMLU PAYLOAD
+      // BACKEND İLE UYUMLU YENİ PAYLOAD
       const payload = {
         weight: Number(formData.weight),
         height: Number(formData.height),
         age: Number(formData.age),
         targetWeight: Number(formData.targetWeight),
-        bloodType: Number(formData.bloodType),
+        bloodType: formData.bloodType, // Artık Number yapmıyoruz, string ("0", "A", "B", "AB") olarak gidiyor
       };
 
       const res = await api.post("/products/public-calorie", payload);
 
       toast.success("Calculation completed successfully");
 
-      // 🔥 modal açma
+      // Modal tetikleme
       if (openModal) {
         openModal(res.data.data);
       }
@@ -68,6 +68,7 @@ export default function DailyCaloriesForm({ openModal }) {
           placeholder="Height (cm)"
           value={formData.height}
           onChange={handleChange}
+          required
         />
 
         {/* AGE */}
@@ -77,15 +78,17 @@ export default function DailyCaloriesForm({ openModal }) {
           placeholder="Age"
           value={formData.age}
           onChange={handleChange}
+          required
         />
 
-        {/* WEIGHT (KRİTİK DÜZELTME) */}
+        {/* WEIGHT */}
         <input
           name="weight"
           type="number"
           placeholder="Current Weight (kg)"
           value={formData.weight}
           onChange={handleChange}
+          required
         />
 
         {/* TARGET WEIGHT */}
@@ -95,18 +98,19 @@ export default function DailyCaloriesForm({ openModal }) {
           placeholder="Desired Weight (kg)"
           value={formData.targetWeight}
           onChange={handleChange}
+          required
         />
 
-        {/* BLOOD TYPE */}
+        {/* YENİ KAN GRUBU SEÇENEKLERİ (BACKEND UYUMLU) */}
         <select
           name="bloodType"
           value={formData.bloodType}
           onChange={handleChange}
         >
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
+          <option value="0">0</option>
+          <option value="A">A</option>
+          <option value="B">B</option>
+          <option value="AB">AB</option>
         </select>
 
         {/* SUBMIT */}
