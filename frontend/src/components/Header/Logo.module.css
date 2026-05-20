@@ -1,0 +1,47 @@
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  text-decoration: none;
+}
+
+.icon {
+  height: 28px;
+  width: auto;
+}
+
+.text {
+  display: flex;
+  gap: 4px;
+
+  font-weight: 700;
+}
+
+.slim {
+  color: black;
+}
+
+.mom {
+  color: orange;
+}
+
+@media (min-width: 768px) {
+  .icon {
+    height: 34px;
+  }
+
+  .text {
+    font-size: 18px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .logo {
+    transform: translateY(-6px);
+  }
+
+  .text {
+    font-size: 20px;
+  }
+}

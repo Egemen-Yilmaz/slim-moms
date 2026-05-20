@@ -1,0 +1,44 @@
+.nav {
+  display: none;
+}
+
+/* TABLET */
+@media (min-width: 768px) {
+  .nav {
+    display: flex;
+    gap: 20px;
+
+    align-items: center;
+  }
+}
+
+/* DESKTOP */
+@media (min-width: 1280px) {
+  .nav {
+    gap: 30px;
+    margin-left: 40px;
+  }
+
+  .nav a {
+    position: relative;
+    font-weight: 500;
+  }
+
+  .nav a::before {
+    content: "";
+    position: absolute;
+
+    left: -20px;
+    top: 50%;
+    transform: translateY(-50%);
+
+    width: 1px;
+    height: 20px;
+
+    background: #ccc;
+  }
+
+  .nav a:first-child::before {
+    display: none;
+  }
+}

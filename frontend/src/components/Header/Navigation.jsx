@@ -1,13 +1,20 @@
 import { NavLink } from "react-router-dom";
+import css from "./Navigation.module.css";
 
-function Navigation() {
+export default function Navigation({ isLoggedIn }) {
   return (
-    <nav>
-      <NavLink to="/login">Login</NavLink>
-
-      <NavLink to="/register">Registration</NavLink>
+    <nav className={css.nav}>
+      {!isLoggedIn ? (
+        <>
+          <NavLink to="/login">Login</NavLink>
+          <NavLink to="/register">Registration</NavLink>
+        </>
+      ) : (
+        <>
+          <NavLink to="/diary">Diary</NavLink>
+          <NavLink to="/calculator">Calculator</NavLink>
+        </>
+      )}
     </nav>
   );
 }
-
-export default Navigation;

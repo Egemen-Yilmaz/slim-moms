@@ -1,11 +1,15 @@
 import { Link } from "react-router-dom";
+import css from "./Logo.module.css";
 
-function Logo() {
+export default function Logo() {
   return (
-    <Link to="/">
-      <h2>Slim Moms</h2>
+    <Link to="/" className={css.logo}>
+      <img src="/slim-moms.svg" alt="Slim Moms" className={css.icon} />
+
+      <div className={css.text}>
+        <span className={css.slim}>Slim</span>
+        <span className={css.mom}>Mom</span>
+      </div>
     </Link>
   );
 }
-
-export default Logo;
