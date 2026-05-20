@@ -3,9 +3,7 @@ import { useEffect } from "react";
 export default function Modal({ children, closeModal }) {
   useEffect(() => {
     const handleEsc = (e) => {
-      if (e.key === "Escape") {
-        closeModal();
-      }
+      if (e.key === "Escape") closeModal();
     };
 
     window.addEventListener("keydown", handleEsc);
@@ -28,14 +26,17 @@ export default function Modal({ children, closeModal }) {
         position: "fixed",
         inset: 0,
         background: "rgba(0,0,0,0.5)",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
       }}
     >
       <div
         style={{
           background: "white",
           width: "500px",
-          margin: "100px auto",
           padding: "20px",
+          borderRadius: "8px",
         }}
       >
         {children}
