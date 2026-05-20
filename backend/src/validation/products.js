@@ -19,8 +19,8 @@ const publicCalorieSchema = Joi.object({
     'number.base': 'Hedef kilo bir sayı olmalıdır.',
     'any.required': 'Hedef kilo alanı zorunludur.'
   }),
-  bloodType: Joi.number().valid(1, 2, 3, 4).required().messages({
-    'any.only': 'Kan grubu 1, 2, 3 veya 4 olmalıdır.',
+  bloodType: Joi.string().valid('0', 'A', 'B', 'AB').required().messages({
+    'any.only': 'Kan grubu "0", "A", "B" veya "AB" olmalıdır.',
     'any.required': 'Kan grubu alanı zorunludur.'
   })
 });

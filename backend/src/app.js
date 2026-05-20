@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
 const swaggerUi = require('swagger-ui-express');
+const diaryRouter = require('./routes/diary');
 
 const app = express();
 
@@ -108,9 +109,9 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 const authRouter = require('./routes/auth');
 const productsRouter = require('./routes/products');
 
-// 2. SONRA ROTALAR
-const authRouter = require("./routes/auth");
-const productsRouter = require("./routes/products");
+app.use('/api/auth', authRouter);
+app.use('/api/products', productsRouter);
+app.use('/api/diary', diaryRouter);
 
 // Test Endpoint
 app.get("/api/health", (req, res) => {
