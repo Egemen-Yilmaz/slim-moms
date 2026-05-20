@@ -134,9 +134,31 @@ const logout = async (req, res, next) => {
   }
 };
 
+// O ANKİ AKTİF KULLANICI BİLGİLERİ (CURRENT USER)
+const getCurrentUser = async (req, res, next) => {
+  try {
+    // protect middleware'i bize zaten req.user.id'yi vermişti.
+    // Veritabanından kullanıcıyı buluyoruz ama şifresini (-password) yanıta dahil etmiyoruz!
+    const User = require('../models/User'); // Eğer yukarıda tanımlı değilse
+    const user = await User.findById(req.user.id).select('-password');
+
+    if (!user) {
+      return res.status(404).json({ status: 'fail', message: 'Kullanıcı bulunamadı.' });
+    }
+
+    return res.status(200).json({
+      status: 'success',
+      data: { user }
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports = {
   register,
   login,
   refresh,
-  logout
+  logout,
+  getCurrentUser
 };
