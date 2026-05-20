@@ -1,29 +1,46 @@
-export default function RightSideBar() {
+export default function RightSideBar({ summary, selectedDate }) {
+  // Eğer henüz veri yüklenmediyse varsayılan boş şablon gösterilsin
+  const {
+    dailyCalorieIntake = 0,
+    totalEatenCalories = 0,
+    kcalLeft = 0,
+    notAllowedProducts = []
+  } = summary || {};
+
+  // Tüketim yüzdesi hesabı
+  const normalPercentage = dailyCalorieIntake > 0 
+    ? Math.round((totalEatenCalories / dailyCalorieIntake) * 100) 
+    : 0;
+
   return (
     <aside className="right-sidebar">
       <div style={{ padding: "20px" }}>
         <h3>Summary</h3>
-        <p>Summary for: 13.08.2023</p>
+        <p>Summary for: {selectedDate || "Select a date"}</p>
         <ul>
           <li>
-            <strong>Left:</strong> 1200 kcal
+            <strong>Left:</strong> {kcalLeft} kcal
           </li>
           <li>
-            <strong>Consumed:</strong> 800 kcal
+            <strong>Consumed:</strong> {totalEatenCalories} kcal
           </li>
           <li>
-            <strong>Daily Rate:</strong> 2000 kcal
+            <strong>Daily Rate:</strong> {dailyCalorieIntake} kcal
           </li>
           <li>
-            <strong>Normal %:</strong> 60%
+            <strong>Normal %:</strong> {normalPercentage}%
           </li>
         </ul>
         <hr />
         <h4>Food not recommended</h4>
         <ul>
-          <li>Chocolate</li>
-          <li>Fast Food</li>
-          <li>Sugary Drinks</li>
+          {notAllowedProducts.length > 0 ? (
+            notAllowedProducts.map((product, index) => (
+              <li key={index}>{product}</li>
+            ))
+          ) : (
+            <li>Your diet is clear!</li>
+          )}
         </ul>
       </div>
     </aside>
