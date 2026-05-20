@@ -5,7 +5,17 @@ require("dotenv").config();
 const app = express();
 
 // 1. ÖNCE MIDDLEWARE'LER (JSON okuyucu mutlaka rotalardan üstte olmalı!)
-app.use(cors());
+
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "http://127.0.0.1:5173",
+      "http://localhost:5174",
+      "http://127.0.0.1:5174",
+    ],
+  }),
+);
 app.use(express.json());
 
 // 2. SONRA ROTALAR
@@ -30,13 +40,5 @@ app.use((err, req, res, next) => {
     message: err.message || "Sunucu içi bir hata oluştu.",
   });
 });
-
-app.use(
-  cors({
-    origin: "http://localhost:5174",
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-  }),
-);
 
 module.exports = app;
