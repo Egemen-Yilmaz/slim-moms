@@ -1,24 +1,25 @@
 import { Link } from "react-router-dom";
 
-function DailyCalorieIntake() {
+export default function DailyCalorieIntake({ data }) {
+  if (!data) return null;
+
   return (
     <div>
       <h2>Your recommended daily calorie intake is</h2>
 
-      <p>2800 kcal</p>
+      <h1>{data.dailyRate}</h1>
 
-      <h3>Foods you should not eat</h3>
+      <h3>Food you should not eat</h3>
 
       <ul>
-        <li>Banana</li>
-        <li>Bread</li>
+        {data.notAllowedProducts?.map((item) => (
+          <li key={item}>{item}</li>
+        ))}
       </ul>
 
       <Link to="/register">
-        <button type="button">Start losing weight</button>
+        <button>Start losing weight</button>
       </Link>
     </div>
   );
 }
-
-export default DailyCalorieIntake;

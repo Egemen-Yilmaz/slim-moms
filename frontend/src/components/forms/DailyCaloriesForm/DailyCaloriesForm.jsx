@@ -1,42 +1,119 @@
 import { useState } from "react";
+import { api } from "../../../api/axios";
+import { toast } from "react-toastify";
 
-import Button from "../../common/Button/Button";
-import Modal from "../../common/Modal/Modal";
+export default function DailyCaloriesForm({ openModal }) {
+  const [formData, setFormData] = useState({
+    weight: "",
+    height: "",
+    age: "",
+    targetWeight: "",
+    bloodType: "1",
+  });
 
-import DailyCalorieIntake from "../../DailyCalorieIntake/DailyCalorieIntake";
+  const [loading, setLoading] = useState(false);
 
-function DailyCaloriesForm() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const handleChange = (e) => {
+    setFormData((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+  };
 
-  const handleOpenModal = () => {
-    setIsModalOpen(true);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      // 🔥 BACKEND İLE %100 UYUMLU PAYLOAD
+      const payload = {
+        weight: Number(formData.weight),
+        height: Number(formData.height),
+        age: Number(formData.age),
+        targetWeight: Number(formData.targetWeight),
+        bloodType: Number(formData.bloodType),
+      };
+
+      const res = await api.post("/products/public-calorie", payload);
+
+      toast.success("Calculation completed successfully");
+
+      // 🔥 modal açma
+      if (openModal) {
+        openModal(res.data.data);
+      }
+    } catch (err) {
+      console.error("CALCULATION ERROR:", err);
+
+      const errorMessage =
+        err.response?.data?.message ||
+        err.response?.data?.error ||
+        "Calculation failed. Please try again.";
+
+      toast.error(errorMessage);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div>
-      <h1>Calculate your daily calorie intake right now</h1>
+      <h1>Calculate your daily calorie intake now</h1>
 
-      <form>
-        <input type="number" placeholder="Height" />
+      <form onSubmit={handleSubmit}>
+        {/* HEIGHT */}
+        <input
+          name="height"
+          type="number"
+          placeholder="Height (cm)"
+          value={formData.height}
+          onChange={handleChange}
+        />
 
-        <input type="number" placeholder="Age" />
+        {/* AGE */}
+        <input
+          name="age"
+          type="number"
+          placeholder="Age"
+          value={formData.age}
+          onChange={handleChange}
+        />
 
-        <input type="number" placeholder="Current weight" />
+        {/* WEIGHT (KRİTİK DÜZELTME) */}
+        <input
+          name="weight"
+          type="number"
+          placeholder="Current Weight (kg)"
+          value={formData.weight}
+          onChange={handleChange}
+        />
 
-        <input type="number" placeholder="Desired weight" />
+        {/* TARGET WEIGHT */}
+        <input
+          name="targetWeight"
+          type="number"
+          placeholder="Desired Weight (kg)"
+          value={formData.targetWeight}
+          onChange={handleChange}
+        />
 
-        <Button type="button" onClick={handleOpenModal}>
-          Start losing weight
-        </Button>
+        {/* BLOOD TYPE */}
+        <select
+          name="bloodType"
+          value={formData.bloodType}
+          onChange={handleChange}
+        >
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+        </select>
+
+        {/* SUBMIT */}
+        <button disabled={loading}>
+          {loading ? "Loading..." : "Start losing weight"}
+        </button>
       </form>
-
-      {isModalOpen && (
-        <Modal>
-          <DailyCalorieIntake />
-        </Modal>
-      )}
     </div>
   );
 }
-
-export default DailyCaloriesForm;
