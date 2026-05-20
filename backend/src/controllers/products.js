@@ -1,4 +1,4 @@
-const { publicCalorieSchema } = require('../validation/products');
+const { userCalorieSchema } = require('../validation/products');
 const { calculateDailyCalorie } = require('../services/calorie');
 const UserDiet = require('../models/UserDiet');
 const Product = require('../models/Product');
@@ -8,7 +8,7 @@ const bloodTypeMapper = { '0': 1, 'A': 2, 'B': 3, 'AB': 4 };
 
 const getPublicDailyCalorie = async (req, res, next) => {
   try {
-    const { error, value } = publicCalorieSchema.validate(req.body);
+    const { error, value } = userCalorieSchema.validate(req.body);
     if (error) {
       return res.status(400).json({ status: 'fail', message: error.details[0].message });
     }
@@ -36,7 +36,7 @@ const getPublicDailyCalorie = async (req, res, next) => {
 
 const saveUserDailyCalorie = async (req, res, next) => {
   try {
-    const { error, value } = publicCalorieSchema.validate(req.body);
+    const { error, value } = userCalorieSchema.validate(req.body);
     if (error) {
       return res.status(400).json({ status: 'fail', message: error.details[0].message });
     }

@@ -10,7 +10,7 @@ const diaryRouter = require('./routes/diary'); // Egemen'in eklediği günlük r
 
 const app = express();
 
-// 📝 SWAGGER DÖKÜMANTASYON VERİSİ
+// 📝 SWAGGER DÖKÜMANTASYON VERİSİ (Bütün Rotalar Entegre Edildi)
 const swaggerDocument = {
   openapi: "3.0.0",
   info: {
@@ -19,6 +19,16 @@ const swaggerDocument = {
     description: "Slim Moms Sağlıklı Beslenme ve Kalori Takip Uygulaması API Dökümantasyonu"
   },
   servers: [{ url: "http://localhost:8080", description: "Lokal Geliştirme Sunucusu" }],
+  components: {
+    securitySchemes: {
+      BearerAuth: {
+        type: "http",
+        scheme: "bearer",
+        bearerFormat: "JWT",
+        description: "Giriş yaptıktan sonra aldığınız token değerini buraya giriniz."
+      }
+    }
+  },
   paths: {
     "/api/auth/register": {
       post: {
@@ -64,6 +74,115 @@ const swaggerDocument = {
         },
         responses: { "200": { description: "Giriş başarılı." } }
       }
+    },
+    "/api/products/public-calorie": {
+      post: {
+        summary: "Ziyaretçiler İçin Kalori Hesaplama (Anonim)",
+        tags: ["Products"],
+        requestBody: {
+          required: true,
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                required: ["height", "age", "weight", "targetWeight", "bloodType"],
+                properties: {
+                  height: { type: "number", example: 175 },
+                  age: { type: "number", example: 28 },
+                  weight: { type: "number", example: 80 },
+                  targetWeight: { type: "number", example: 70 },
+                  bloodType: { type: "string", example: "A" }
+                }
+              }
+            }
+          }
+        },
+        responses: { "200": { description: "Kalori limiti ve yasaklı gıdalar başarıyla hesaplandı." } }
+      }
+    },
+    "/api/products/user-calorie": {
+      post: {
+        summary: "Giriş Yapmış Kullanıcı İçin Kalori Hesaplama ve Kaydetme",
+        tags: ["Products"],
+        security: [{ BearerAuth: [] }],
+        requestBody: {
+          required: true,
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                required: ["height", "age", "weight", "targetWeight", "bloodType"],
+                properties: {
+                  height: { type: "number", example: 175 },
+                  age: { type: "number", example: 28 },
+                  weight: { type: "number", example: 80 },
+                  targetWeight: { type: "number", example: 70 },
+                  bloodType: { type: "string", example: "0" }
+                }
+              }
+            }
+          }
+        },
+        responses: { "200": { description: "Hesaplama yapıldı ve kullanıcının diyet profiline kaydedildi." } }
+      }
+    },
+    "/api/products": {
+      get: {
+        summary: "Query String ile Ürün Arama",
+        tags: ["Products"],
+        security: [{ BearerAuth: [] }],
+        parameters: [
+          { name: "search", in: "query", required: true, description: "Aranacak gıda adı (örn: banana)", schema: { type: "string" } }
+        ],
+        responses: { "200": { description: "Arama sonuçları listelendi." } }
+      }
+    },
+    "/api/diary": {
+      post: {
+        summary: "Günlüğe Tüketilen Ürün Ekleme",
+        tags: ["Diary"],
+        security: [{ BearerAuth: [] }],
+        requestBody: {
+          required: true,
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                required: ["date", "productId", "weight"],
+                properties: {
+                  date: { type: "string", example: "2026-05-20", description: "YYYY-MM-DD formatında" },
+                  productId: { type: "string", example: "507f1f77bcf86cd799439011" },
+                  weight: { type: "number", example: 200, description: "Gram cinsinden tüketilen miktar" }
+                }
+              }
+            }
+          }
+        },
+        responses: { "201": { description: "Ürün günlüğe eklendi ve yeni güncellenmiş özet veri dönüldü." } }
+      }
+    },
+    "/api/diary/{date}": {
+      get: {
+        summary: "Belirli Bir Tarihe Ait Günlük Bilgisi ve Sağ Bar Özeti",
+        tags: ["Diary"],
+        security: [{ BearerAuth: [] }],
+        parameters: [
+          { name: "date", in: "path", required: true, description: "Sorgulanacak tarih (YYYY-MM-DD)", schema: { type: "string", example: "2026-05-20" } }
+        ],
+        responses: { "200": { description: "O güne ait yiyecekler ve matematiksel özet başarıyla getirildi." } }
+      }
+    },
+    "/api/diary/{diaryId}/product/{productId}": {
+      delete: {
+        summary: "Günlükten Ürün Silme",
+        tags: ["Diary"],
+        security: [{ BearerAuth: [] }],
+        parameters: [
+          { name: "diaryId", in: "path", required: true, description: "Günlük dökümanının asıl ID'si", schema: { type: "string" } },
+          { name: "productId", in: "path", required: true, description: "Dizi içindeki silinecek ürünün alt _id değeri", schema: { type: "string" } }
+        ],
+        responses: { "200": { description: "Ürün günlükten temizlendi ve yeni güncellenmiş özet veri dönüldü." } }
+      }
     }
   }
 };
@@ -77,7 +196,7 @@ app.use(cors({
 }));
 app.use(express.json()); 
 
-// 📝 Swagger UI Arayüzü (http://localhost:8080/api-docs adresinden bakabilirsin)
+// Swagger UI Arayüzü (http://localhost:8080/api-docs adresinden bakabilirsin)
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // 2. AKTİF ROTALAR
