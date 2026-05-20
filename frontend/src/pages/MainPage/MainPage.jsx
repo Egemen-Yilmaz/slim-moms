@@ -13,7 +13,7 @@ export default function MainPage() {
 
   const openModal = (data) => {
     const formattedData = {
-      dailyRate: data.dailyRate || data.dailyCalorieIntake,
+      dailyCalorieIntake: data.dailyCalorieIntake || data.dailyRate, // Her iki ihtimali de garantiye aldık
       notAllowedProducts: data.notAllowedProducts,
     };
 
