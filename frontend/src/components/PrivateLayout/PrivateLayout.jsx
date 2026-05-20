@@ -10,9 +10,7 @@ export default function PrivateLayout() {
         <Outlet />
       </div>
 
-      <div className="right-side">
-        <RightSideBar />
-      </div>
+      <RightSideBar />
     </div>
   );
 }

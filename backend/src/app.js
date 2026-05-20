@@ -101,8 +101,6 @@ const swaggerDocument = {
 };
 
 // 1. ÖNCE MIDDLEWARE'LER (JSON okuyucu mutlaka rotalardan üstte olmalı!)
-app.use(cors());
-app.use(express.json()); 
 
 // 📝 Swagger API Dökümantasyon Rotası (Görsel arayüz için middleware'lerin hemen altında)
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
@@ -116,8 +114,10 @@ app.use('/api/products', productsRouter);
 app.use('/api/diary', diaryRouter);
 
 // Test Endpoint
-app.get('/api/health', (req, res) => {
-  res.status(200).json({ status: "success", message: "Server çalışıyor ve sağlıklı!" });
+app.get("/api/health", (req, res) => {
+  res
+    .status(200)
+    .json({ status: "success", message: "Server çalışıyor ve sağlıklı!" });
 });
 
 // 🔍 3. 404 HATA YÖNETİMİ (Eğer istek yukarıdaki hiçbir rotaya eşleşmediyse buraya düşer)
@@ -130,7 +130,7 @@ app.use((err, req, res, next) => {
   const statusCode = err.status || 500;
   res.status(statusCode).json({
     status: "error",
-    message: err.message || "Sunucu içi bir hata oluştu."
+    message: err.message || "Sunucu içi bir hata oluştu.",
   });
 });
 

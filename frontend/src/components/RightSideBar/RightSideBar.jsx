@@ -3,9 +3,7 @@ export default function RightSideBar() {
     <aside className="right-sidebar">
       <div style={{ padding: "20px" }}>
         <h3>Summary</h3>
-
         <p>Summary for: 13.08.2023</p>
-
         <ul>
           <li>
             <strong>Left:</strong> 1200 kcal
@@ -20,11 +18,8 @@ export default function RightSideBar() {
             <strong>Normal %:</strong> 60%
           </li>
         </ul>
-
         <hr />
-
         <h4>Food not recommended</h4>
-
         <ul>
           <li>Chocolate</li>
           <li>Fast Food</li>
