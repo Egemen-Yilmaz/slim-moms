@@ -12,7 +12,12 @@ export default function MainPage() {
   const [result, setResult] = useState(null);
 
   const openModal = (data) => {
-    setResult(data);
+    const formattedData = {
+      dailyRate: data.dailyRate || data.dailyCalorieIntake,
+      notAllowedProducts: data.notAllowedProducts,
+    };
+
+    setResult(formattedData);
     setIsModalOpen(true);
   };
 

@@ -40,7 +40,8 @@ export default function DailyCaloriesForm({ openModal }) {
 
       // Modal tetikleme
       if (openModal) {
-        openModal(res.data.data);
+        const calorieValue = res.data.data; // İçinde dailyCalorieIntake ve notAllowedProducts var
+        openModal(calorieValue); // Veriyi ekstra bir objeye sarmalamadan, Egemen'den geldiği gibi ham haliyle gönderiyoruz
       }
     } catch (err) {
       console.error("CALCULATION ERROR:", err);
