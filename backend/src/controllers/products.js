@@ -1,62 +1,61 @@
 const { publicCalorieSchema } = require('../validation/products');
 const { calculateDailyCalorie } = require('../services/calorie');
 const UserDiet = require('../models/UserDiet');
+const Product = require('../models/Product');
+
+// Kan grubunu array indeksine dönüştüren harita (0:1, A:2, B:3, AB:4)
+const bloodTypeMapper = { '0': 1, 'A': 2, 'B': 3, 'AB': 4 };
 
 const getPublicDailyCalorie = async (req, res, next) => {
   try {
-    console.log("1. Gelen Raw Body:", req.body); // Terminalde ne çıkıyor?
-    // 1. Gelen veriyi Joi ile doğrula
-    const { error, value } = publicCalorieSchema.validate(req.body);
-
-    console.log("2. Joi'den Geçen Value:", value); // Terminalde ne çıkıyor?
-    
-    if (error) {
-      return res.status(400).json({
-        status: 'fail',
-        message: error.details[0].message,
-      });
-    }
-
-    // 2. Kalori hesaplamasını yap 
-    // KRİTİK NOKTA: Fonksiyona Joi'den dönen temizlenmiş "value" değerini gönderiyoruz!
-    const dailyCalorieIntake = calculateDailyCalorie(value);
-
-    // 3. Yanıtı dön
-    return res.status(200).json({
-      status: 'success',
-      data: {
-        dailyCalorieIntake,
-        notAllowedProducts: [],
-      },
-    });
-  } catch (err) {
-    next(err); // Hatayı global hata yakalayıcıya (app.js) fırlatır ve 500 basar
-  }
-};
-
-// 🔐 GİRİŞ YAPMIŞ KULLANICI İÇİN KALORİ HESAPLAMA VEYA GÜNCELLEME
-const saveUserDailyCalorie = async (req, res, next) => {
-  try {
-    // 1. Gelen veriyi Joi ile doğrula (Aynı kurallar geçerli olduğu için mevcut şemayı kullanıyoruz)
     const { error, value } = publicCalorieSchema.validate(req.body);
     if (error) {
       return res.status(400).json({ status: 'fail', message: error.details[0].message });
     }
 
-    // 2. Kaloriyi servis fonksiyonumuzla hesapla
     const dailyCalorieIntake = calculateDailyCalorie(value);
 
-    // 3. Hesaplanan veriyi bu kullanıcı adına DB'ye kaydet veya zaten varsa üzerine yaz (findOneAndUpdate)
-    // req.user.id bilgisini bize yukarıda yazdığımız Auth Middleware (protect) sağlayacak!
+    // Kan grubuna göre MongoDB indeksini bul
+    const bloodIndex = bloodTypeMapper[value.bloodType];
+
+    // İlgili kan grubuna true (yasak) olan benzersiz kategorileri MongoDB'den çekiyoruz
+    const queryKey = `groupBloodNotAllowed.${bloodIndex}`;
+    const bannedProducts = await Product.find({ [queryKey]: true }).distinct('categories');
+
+    return res.status(200).json({
+      status: 'success',
+      data: {
+        dailyCalorieIntake,
+        notAllowedProducts: bannedProducts,
+      },
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+const saveUserDailyCalorie = async (req, res, next) => {
+  try {
+    const { error, value } = publicCalorieSchema.validate(req.body);
+    if (error) {
+      return res.status(400).json({ status: 'fail', message: error.details[0].message });
+    }
+
+    const dailyCalorieIntake = calculateDailyCalorie(value);
+    const bloodIndex = bloodTypeMapper[value.bloodType];
+
+    const queryKey = `groupBloodNotAllowed.${bloodIndex}`;
+    const bannedProducts = await Product.find({ [queryKey]: true }).distinct('categories');
+
     const userDietData = await UserDiet.findOneAndUpdate(
       { uid: req.user.id },
       {
         uid: req.user.id,
         ...value,
         dailyCalorieIntake,
-        notAllowedProducts: [] // Şimdilik boş, filtreleme fazında burası canlanacak
+        notAllowedProducts: bannedProducts
       },
-      { upsert: true, new: true } // upsert: yoksa döküman oluştur, varsa güncelle demek
+      { upsert: true, new: true }
     );
 
     return res.status(200).json({
