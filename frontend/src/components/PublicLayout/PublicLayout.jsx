@@ -1,10 +1,16 @@
 import { Outlet } from "react-router-dom";
+import Header from "../Header/Header";
+
+import css from "./PublicLayout.module.css";
 
 export default function PublicLayout() {
   return (
-    <div style={{ background: "blue" }}>
-      PUBLIC LAYOUT ÇALIŞIYOR
-      <Outlet />
+    <div className={css.layout}>
+      <Header />
+
+      <main className={css.main}>
+        <Outlet />
+      </main>
     </div>
   );
 }
