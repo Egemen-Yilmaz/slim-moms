@@ -112,7 +112,7 @@ const swaggerDocument = {
 
 app.use(
   cors({
-    origin: "http://localhost:5174", // Tarayıcında ne görüyorsan NOKTA ATIŞI onu yaz (5173 veya 5174)
+    origin: "http://localhost:5173", // Tarayıcında ne görüyorsan NOKTA ATIŞI onu yaz (5173 veya 5174)
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
   }),
