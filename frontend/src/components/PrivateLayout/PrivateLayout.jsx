@@ -1,6 +1,7 @@
 import { Outlet } from "react-router-dom";
 import Header from "../Header/Header";
 import RightSideBar from "../RightSideBar/RightSideBar";
+import "./PrivateLayout.module.css";
 
 export default function PrivateLayout() {
   return (

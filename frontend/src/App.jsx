@@ -7,6 +7,7 @@ import MainPage from "./pages/MainPage/MainPage.jsx";
 import DiaryPage from "./pages/DiaryPage/DiaryPage.jsx";
 import RegistrationPage from "./pages/RegistrationPage/RegistrationPage.jsx";
 import CalculatorPage from "./pages/CalculatorPage/CalculatorPage.jsx";
+import PrivateRoute from "./routes/PrivateRoute";
 
 export default function App() {
   return (
@@ -17,7 +18,13 @@ export default function App() {
         <Route path="/register" element={<RegistrationPage />} />
       </Route>
 
-      <Route element={<PrivateLayout />}>
+      <Route
+        element={
+          <PrivateRoute>
+            <PrivateLayout />
+          </PrivateRoute>
+        }
+      >
         <Route path="/diary" element={<DiaryPage />} />
         <Route path="/calculator" element={<CalculatorPage />} />
       </Route>

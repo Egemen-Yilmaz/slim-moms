@@ -1,0 +1,24 @@
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.user-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: #212121;
+}
+
+.logout-btn {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+
+  font-size: 14px;
+  color: #9b9faa;
+}
+
+.logout-btn:hover {
+  color: #fc842d;
+}

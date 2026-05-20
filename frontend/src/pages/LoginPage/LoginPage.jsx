@@ -2,8 +2,13 @@ import { useState } from "react";
 import { api } from "../../api/axios";
 import { useNavigate } from "react-router-dom";
 
+import { useDispatch } from "react-redux";
+import { setAuthData } from "../../redux/auth/authSlice";
+
 export default function LoginPage() {
   const navigate = useNavigate();
+
+  const dispatch = useDispatch();
 
   const [form, setForm] = useState({
     email: "",
@@ -11,6 +16,7 @@ export default function LoginPage() {
   });
 
   const [loading, setLoading] = useState(false);
+
   const [error, setError] = useState("");
 
   const handleChange = (e) => {
@@ -22,20 +28,19 @@ export default function LoginPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     setLoading(true);
+
     setError("");
 
     try {
       const res = await api.post("/auth/login", form);
 
-      const { accessToken, refreshToken } = res.data.data;
+      dispatch(setAuthData(res.data.data));
 
-      localStorage.setItem("token", accessToken);
-      localStorage.setItem("refreshToken", refreshToken);
-
-      navigate("/diary"); // login sonrası ana uygulama
+      navigate("/diary");
     } catch (err) {
-      setError(err.response?.data?.message || "Giriş başarısız");
+      setError(err.response?.data?.message || "Login failed");
     } finally {
       setLoading(false);
     }
