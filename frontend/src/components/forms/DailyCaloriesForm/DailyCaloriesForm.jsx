@@ -25,7 +25,6 @@ export default function DailyCaloriesForm({ openModal }) {
     setLoading(true);
 
     try {
-      // 🔥 BACKEND İLE %100 UYUMLU PAYLOAD
       const payload = {
         weight: Number(formData.weight),
         height: Number(formData.height),
@@ -36,21 +35,15 @@ export default function DailyCaloriesForm({ openModal }) {
 
       const res = await api.post("/products/public-calorie", payload);
 
-      toast.success("Calculation completed successfully");
+      const calorieValue = res.data.data;
 
-      // 🔥 modal açma
-      if (openModal) {
-        openModal(res.data.data);
-      }
+      openModal(calorieValue);
+
+      toast.success("Calculation completed");
     } catch (err) {
-      console.error("CALCULATION ERROR:", err);
+      const message = err.response?.data?.message || "Something went wrong";
 
-      const errorMessage =
-        err.response?.data?.message ||
-        err.response?.data?.error ||
-        "Calculation failed. Please try again.";
-
-      toast.error(errorMessage);
+      toast.error(message);
     } finally {
       setLoading(false);
     }
@@ -61,55 +54,22 @@ export default function DailyCaloriesForm({ openModal }) {
       <h1>Calculate your daily calorie intake now</h1>
 
       <form onSubmit={handleSubmit}>
-        {/* HEIGHT */}
-        <input
-          name="height"
-          type="number"
-          placeholder="Height (cm)"
-          value={formData.height}
-          onChange={handleChange}
-        />
-
-        {/* AGE */}
-        <input
-          name="age"
-          type="number"
-          placeholder="Age"
-          value={formData.age}
-          onChange={handleChange}
-        />
-
-        {/* WEIGHT (KRİTİK DÜZELTME) */}
-        <input
-          name="weight"
-          type="number"
-          placeholder="Current Weight (kg)"
-          value={formData.weight}
-          onChange={handleChange}
-        />
-
-        {/* TARGET WEIGHT */}
+        <input name="height" placeholder="Height" onChange={handleChange} />
+        <input name="age" placeholder="Age" onChange={handleChange} />
+        <input name="weight" placeholder="Weight" onChange={handleChange} />
         <input
           name="targetWeight"
-          type="number"
-          placeholder="Desired Weight (kg)"
-          value={formData.targetWeight}
+          placeholder="Target Weight"
           onChange={handleChange}
         />
 
-        {/* BLOOD TYPE */}
-        <select
-          name="bloodType"
-          value={formData.bloodType}
-          onChange={handleChange}
-        >
+        <select name="bloodType" onChange={handleChange}>
           <option value="1">1</option>
           <option value="2">2</option>
           <option value="3">3</option>
           <option value="4">4</option>
         </select>
 
-        {/* SUBMIT */}
         <button disabled={loading}>
           {loading ? "Loading..." : "Start losing weight"}
         </button>
