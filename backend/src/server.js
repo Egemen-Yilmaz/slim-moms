@@ -1,7 +1,7 @@
 const app = require('./app');
 const connectDB = require('./db/connection');
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 8080;
 
 const startServer = async () => {
   // Önce Veritabanına Bağlan
