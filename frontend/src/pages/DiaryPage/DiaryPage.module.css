@@ -1,35 +1,153 @@
-/* GEÇİCİ TASARIM */
-
-.diaryPageContainer {
+/* 1. ANA KAPLAYICI */
+.leftColumn {
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
+}
+
+/* 2. FORM HİZALAMA (Masaüstü) */
+.formContainer {
+  display: flex;
+  gap: 20px; /* Liste ile aynı boşluk */
+  align-items: baseline;
+  max-width: 600px;
   width: 100%;
-  min-height: calc(100vh - 80px);
 }
 
-.leftColumn {
+/* Form içindeki inputlar */
+.inputField {
+  flex: 2; /* İsim alanı */
+  border: none;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 10px 0;
+  outline: none;
+}
+
+.gramsInput {
+  flex: 1; /* Gram alanı */
+  border: none;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 10px 0;
+  outline: none;
+  text-align: right;
+  -moz-appearance: textfield;
+}
+.gramsInput::-webkit-outer-spin-button,
+.gramsInput::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* 3. LİSTE HİZALAMA (Form ile aynı oranda) */
+.listWrapper {
+  width: 100%;
+  max-width: 600px;
+  margin-top: 30px;
+}
+
+.productItem {
+  display: flex;
+  gap: 20px; /* Form ile aynı boşluk */
+  align-items: baseline;
+  padding: 10px 0;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.productName {
   flex: 2;
-  padding: 40px 20px;
-}
-
-.rightColumn {
+} /* Name inputuyla aynı */
+.productGrams {
   flex: 1;
-  background-color: #f0f1f3;
-  padding: 40px 20px;
+  text-align: right;
+} /* Gram inputuyla aynı */
+.productCalories {
+  width: 50px; /* Buton genişliğiyle eşitle */
+  text-align: right;
 }
 
-/* Tablet ve Masaüstü Ekran Düzenlemeleri */
+/* 4. BUTON STİLLERİ */
+.submitBtn {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: #fc842c;
+  color: white;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  flex-shrink: 0; /* Butonun asla küçülmesini engelle */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0px 4px 10px rgba(252, 132, 44, 0.35);
+}
+
+/* 5. MOBİL DÜZEN */
+/* Mobildeki tam ekran form */
+.mobileFormWrapper {
+  position: fixed;
+  top: 60px; /* Header'ın hemen altından başlasın */
+  left: 0;
+  width: 100vw;
+  height: calc(100vh - 80px);
+  background: white;
+  z-index: 9999;
+  padding: 20px; /* Padding'i azalttık */
+  gap: 15px;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+.gramsInput {
+  text-align: left;
+}
+/* Mobildeki input boyutlarını küçültüyoruz */
+.mobileFormWrapper .inputField,
+.mobileFormWrapper .gramsInput {
+  width: 400px;
+  flex: none;
+  display: flex;
+  font-size: 16px; /* Yazı boyutunu küçülttük */
+  padding: 8px 0; /* Padding'i daralttık */
+  border-bottom: 1px solid #e0e0e0;
+}
+
+/* Mobildeki Add butonu boyutunu küçültüyoruz */
+.mobileBtn {
+  width: 150px; /* Daha küçük bir buton */
+  height: 40px;
+  border-radius: 20px; /* Daha zarif */
+  margin-top: 20px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fc842c;
+  color: white;
+  border: none;
+}
+.mobileAddTrigger {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: #fc842c;
+  color: white;
+  border: none;
+  font-size: 24px;
+  align-self: center;
+  margin-top: 50px;
+  cursor: pointer;
+}
+
+@media (max-width: 767px) {
+  .formContainer {
+    display: none;
+  }
+}
 @media (min-width: 768px) {
-  .diaryPageContainer {
-    flex-direction: row;
-  }
-  
-  .leftColumn {
-    padding: 60px 40px;
-  }
-  
-  .rightColumn {
-    padding: 60px 40px;
-    min-width: 300px;
+  .mobileAddTrigger {
+    display: none !important;
   }
 }

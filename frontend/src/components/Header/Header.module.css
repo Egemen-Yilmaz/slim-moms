@@ -7,18 +7,15 @@
   background: #ffffff;
 }
 
-/* LEFT */
 .left {
   display: flex;
   align-items: center;
 }
 
-/* CENTER NAV */
 .center {
   display: none;
 }
 
-/* RIGHT */
 .right {
   display: flex;
   align-items: center;
@@ -26,12 +23,10 @@
   gap: 12px;
 }
 
-/* USER (tablet/desktop header version) */
 .userDesktop {
   display: none;
 }
 
-/* BURGER */
 .burger {
   background: none;
   border: none;
@@ -39,7 +34,6 @@
   cursor: pointer;
 }
 
-/* MOBILE USER BAR */
 .mobileUserBar {
   display: flex;
   justify-content: flex-end;
@@ -48,9 +42,7 @@
   background: #f0f1f3;
 }
 
-/* ===================== */
 /* TABLET (768px) */
-/* ===================== */
 @media (min-width: 768px) {
   .header {
     padding: 0 32px;
@@ -59,11 +51,11 @@
   .center {
     display: flex;
     flex: 1;
-    /* Logoya yapışık durması ve masaüstü çizgisine zemin hazırlamak için sola yasladık */
     justify-content: flex-start;
     margin-left: 20px;
   }
 
+  /* TABLETTE kullanıcı adı yukarıda, beyaz alanda görünür */
   .userDesktop {
     display: flex;
     align-items: center;
@@ -75,45 +67,34 @@
     display: none;
   }
 
-  /* ÖNEMLİ: Tablette linkler gizlendiği için burger butonu görünmeye devam etmeli */
   .burger {
     display: block;
   }
 }
 
-/* ======================================================= */
-/* DESKTOP HEADER (1280px)                                 */
-/* ======================================================= */
+/* DESKTOP (1280px) */
 @media (min-width: 1280px) {
   .header {
     border-bottom: none;
+    padding: 0 40px;
+    width: 100%;
   }
 
   .center {
     justify-content: flex-start;
-    margin-left: 40px; /* Logodan sonraki boşluk miktarı */
+    margin-left: 40px;
   }
 
+  /* MASAÜSTÜNDE beyaz alandaki kullanıcıyı gizliyoruz, çünkü sağ barda çıkacak */
   .userDesktop {
     display: none !important;
   }
 
-  /* Masaüstünde artık burger butonunu tamamen gizliyoruz */
-  .burger {
-    display: none;
+  .mobileUserBar {
+    display: none !important;
   }
 
-  .mobileUserBar {
-    display: flex;
-    justify-content: flex-end;
-    background-color: #eff1f3; /* Arkadaşının tasarladığı o gri alt bar */
-    padding: 15px 20px;
-  }
   .burger {
-    display: block;
-    background: none;
-    border: none;
-    font-size: 24px;
-    cursor: pointer;
+    display: none !important;
   }
 }
