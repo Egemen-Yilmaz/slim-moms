@@ -1,10 +1,11 @@
 import { Link } from "react-router-dom";
+
 import css from "./Logo.module.css";
 
 export default function Logo() {
   return (
     <Link to="/" className={css.logo}>
-      <img src="/slim-moms.svg" alt="Slim Moms" className={css.icon} />
+      <img src="/slim-moms.svg" alt="Slim Moms Logo" className={css.icon} />
 
       <div className={css.text}>
         <span className={css.slim}>Slim</span>

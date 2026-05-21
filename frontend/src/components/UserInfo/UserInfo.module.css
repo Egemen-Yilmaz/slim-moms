@@ -1,16 +1,18 @@
-.user-info {
+.userInfo {
   display: flex;
   align-items: center;
+  justify-content: flex-end;
   gap: 14px;
+  width: 100%;
 }
 
-.user-name {
+.userName {
   font-size: 14px;
   font-weight: 700;
   color: #212121;
 }
 
-.logout-btn {
+.logoutBtn {
   border: none;
   background: transparent;
   cursor: pointer;
@@ -19,6 +21,6 @@
   color: #9b9faa;
 }
 
-.logout-btn:hover {
+.logoutBtn:hover {
   color: #fc842d;
 }

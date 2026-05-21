@@ -1,0 +1,29 @@
+.sidebar {
+  background: #f0f1f3;
+  padding: 20px;
+}
+
+.userSection {
+  display: none; /* Mobil/Tablette gizli */
+}
+
+/* ======================================================= */
+/* DESKTOP HİZALAMASI (EN SADE HALİ)                       */
+/* ======================================================= */
+@media (min-width: 1280px) {
+  /* Genel sidebar iç boşluğu (üst hariç) */
+  .sidebar {
+    padding: 0 40px 40px 40px;
+  }
+
+  /* User alanı tam olarak header ile aynı hizada ve güvende */
+  .userSection {
+    display: flex;
+    justify-content: flex-end; /* İçeriği sağa yaslar */
+    align-items: center; /* Dikeyde ortalar */
+
+    height: 80px; /* Header yüksekliği */
+    border-bottom: 1px solid #e0e0e0; /* Yan tarafla birleşen çizgi */
+    margin-bottom: 30px; /* Alttaki Summary ile aradaki boşluk */
+  }
+}

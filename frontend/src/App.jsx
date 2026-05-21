@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 
-import PublicLayout from "./components/PublicLayout/PublicLayout.jsx";
-import PrivateLayout from "./components/PrivateLayout/PrivateLayout.jsx";
+import PublicLayout from "./layouts/PublicLayout/PublicLayout.jsx";
+import PrivateLayout from "./layouts/PrivateLayout/PrivateLayout.jsx";
 import LoginPage from "./pages/LoginPage/LoginPage.jsx";
 import MainPage from "./pages/MainPage/MainPage.jsx";
 import DiaryPage from "./pages/DiaryPage/DiaryPage.jsx";

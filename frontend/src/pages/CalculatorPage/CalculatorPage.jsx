@@ -1,36 +1,9 @@
-import React from "react";
+import DailyCaloriesForm from "../../components/forms/DailyCaloriesForm/DailyCaloriesForm";
 
-const CalculatorPage = () => {
+export default function CalculatorPage() {
   return (
-    <div>
-      <h1>Calculator Page</h1>
-
-      <form>
-        <label>
-          Weight:
-          <input type="number" placeholder="kg" />
-        </label>
-
-        <br />
-
-        <label>
-          Height:
-          <input type="number" placeholder="cm" />
-        </label>
-
-        <br />
-
-        <label>
-          Age:
-          <input type="number" placeholder="years" />
-        </label>
-
-        <br />
-
-        <button type="button">Start losing weight</button>
-      </form>
-    </div>
+    <section>
+      <DailyCaloriesForm />
+    </section>
   );
-};
-
-export default CalculatorPage;
+}

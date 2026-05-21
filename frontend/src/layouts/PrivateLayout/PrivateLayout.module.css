@@ -1,0 +1,59 @@
+.wrapper {
+  min-height: 100vh;
+  background: #fff;
+}
+
+/* MOBİL GÖRÜNÜM */
+.layout {
+  display: flex;
+  flex-direction: column;
+}
+
+.main {
+  padding: 16px;
+}
+
+.sidebar {
+  background: #f0f1f3;
+  padding: 16px;
+}
+
+/* TABLET GÖRÜNÜMÜ */
+@media screen and (min-width: 768px) {
+  .main {
+    padding: 24px;
+  }
+
+  .sidebar {
+    padding: 24px;
+  }
+}
+
+/* ======================================================= */
+/* İŞTE BURASI: DESKTOPTA YAN YANA GETİREN YER             */
+/* ======================================================= */
+@media screen and (min-width: 1280px) {
+  .wrapper {
+    display: flex;
+    flex-direction: row; /* Sol ve Sağ sütunları yan yana dizer */
+    min-height: 100vh;
+  }
+
+  .layout {
+    flex-direction: column; /* Sol tarafta Header üstte, Main altta kalır */
+    width: 70%; /* Ekranın %70'i sol tarafa */
+    flex: 1;
+  }
+
+  .main {
+    width: 100%;
+    padding: 40px;
+    min-height: calc(100vh - 80px);
+  }
+
+  .sidebar {
+    width: 30%; /* Ekranın %30'u sağ tarafa (Gri Alan) */
+    min-height: 100vh; /* En tepeden en aşağıya kadar uzanır */
+    padding: 0; /* İç padding'i sıfırlıyoruz ki UserInfo tam köşelere hizalansın */
+  }
+}
