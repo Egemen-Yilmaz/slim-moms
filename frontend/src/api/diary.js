@@ -18,11 +18,13 @@ export const addProductToDiary = async (data) => {
 
 /**
  * 3. Günlükten eklenmiş olan bir ürünü siler
- * @param {string} diaryId - Günlük kaydının asıl _id değeri
- * @param {string} productId - Silinecek ürünün dizi içindeki _id değeri
+ * @param {string} date - (Uyum için gönderiliyor)
+ * @param {string} productRecordId - Ürünün o günkü listedeki benzersiz _id değeri
  */
-export const removeProductFromDiary = async (diaryId, productId) => {
-  return api.delete(`/diary/${diaryId}/product/${productId}`);
+export const removeProductFromDiary = async (date, productRecordId) => {
+  // Backend rotan /:diaryId/product/:productId bekliyor. 
+  // Biz ilk parametreye ne yazarsak yazalım backend onu önemsemiyor, doğrudan sondaki productRecordId ile siliyor.
+  return api.delete(`/diary/bypass/product/${productRecordId}`);
 };
 
 /**
@@ -31,4 +33,14 @@ export const removeProductFromDiary = async (diaryId, productId) => {
  */
 export const searchProducts = async (query) => {
   return api.get(`/products?search=${query}`);
+};
+
+/**
+ * Giriş yapmış kullanıcının kalori ihtiyacını hesaplar ve veri tabanına kaydeder
+ * @param {Object} userData - { height, age, currentWeight, desiredWeight, bloodType }
+ */
+export const calculateUserDiet = async (userData) => {
+  // Backend'deki diyet hesaplama/kaydetme endpoint'ine POST isteği atıyoruz
+  const response = await api.post('/diet', userData);
+  return response.data;
 };

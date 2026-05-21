@@ -95,7 +95,7 @@
   }
 
   .userDesktop {
-    display: none;
+    display: none !important;
   }
 
   /* Masaüstünde artık burger butonunu tamamen gizliyoruz */
@@ -104,6 +104,16 @@
   }
 
   .mobileUserBar {
-    display: none;
+    display: flex;
+    justify-content: flex-end;
+    background-color: #eff1f3; /* Arkadaşının tasarladığı o gri alt bar */
+    padding: 15px 20px;
+  }
+  .burger {
+    display: block;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
   }
 }
