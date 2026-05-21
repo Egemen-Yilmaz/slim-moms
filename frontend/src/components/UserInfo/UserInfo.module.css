@@ -3,24 +3,39 @@
   align-items: center;
   justify-content: flex-end;
   gap: 14px;
-  width: 100%;
 }
 
 .userName {
+  font-family: var(--font-family, "Verdana", Geneva, Tahoma, sans-serif);
   font-size: 14px;
-  font-weight: 700;
+  font-weight: var(--font-weight-bold, 700);
   color: #212121;
+  position: relative;
+  padding-right: 14px;
+}
+
+/* Kullanıcı ismi ile Exit butonu arasına dikey gri küçük bir çizgi */
+.userName::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1px;
+  height: 14px;
+  background: #e0e0e0;
 }
 
 .logoutBtn {
   border: none;
   background: transparent;
   cursor: pointer;
-
+  font-family: var(--font-family, "Verdana", Geneva, Tahoma, sans-serif);
   font-size: 14px;
+  font-weight: var(--font-weight-bold, 700);
   color: #9b9faa;
 }
 
 .logoutBtn:hover {
-  color: #fc842d;
+  color: var(--color-primary, #fc842d);
 }

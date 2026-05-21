@@ -1,0 +1,21 @@
+.privateLayout {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.leftSide {
+  width: 100%;
+}
+
+/* DESKTOP (1280px) */
+@media (min-width: 1280px) {
+  .privateLayout {
+    flex-direction: row; /* Sol içerik alanı ve Sağ Bar yan yana dizilir */
+    justify-content: space-between;
+  }
+
+  .leftSide {
+    flex: 1; /* Sol taraf (Header + Sayfa) kalanı kaplar */
+  }
+}

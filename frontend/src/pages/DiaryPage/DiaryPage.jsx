@@ -2,111 +2,72 @@ import { useState, useEffect } from "react";
 import DiaryDateCalendar from "../../components/diary/DiaryDateCalendar/DiaryDateCalendar";
 import DiaryAddProductForm from "../../components/forms/DiaryAddProductForm/DiaryAddProductForm";
 import DiaryProductsList from "../../components/diary/DiaryProductsList/DiaryProductsList";
-import RightSideBar from "../../components/RightSideBar/RightSideBar";
-import { getDiaryByDate, addProductToDiary, removeProductFromDiary } from "../../api/diary";
-import styles from "./DiaryPage.module.css";
+import {
+  addProductToDiary,
+  removeProductFromDiary,
+  getDiaryByDate,
+} from "../../api/diary";
+import css from "./DiaryPage.module.css";
 
 export default function DiaryPage() {
-  const today = new Date().toISOString().split("T")[0];
-  const [selectedDate, setSelectedDate] = useState(today);
-  
+  const [selectedDate, setSelectedDate] = useState(
+    new Date().toISOString().split("T")[0],
+  );
   const [eatenProducts, setEatenProducts] = useState([]);
-  const [summary, setSummary] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [refreshTrigger, setRefreshTrigger] = useState(0);
+  const [isMobileFormOpen, setIsMobileFormOpen] = useState(false);
 
-  // Verileri çeken güvenli useEffect
   useEffect(() => {
-    const fetchDiaryData = async () => {
-      setLoading(true);
-      try {
-        const res = await getDiaryByDate(selectedDate);
-        if (res.data.status === "success" && res.data.data) {
-          setEatenProducts(res.data.data.eatenProducts || []);
-          setSummary(res.data.data.summary || null);
-        } else {
-          setEatenProducts([]);
-          setSummary(null);
-        }
-      } catch (err) {
-        console.error("Günlük verisi çekilirken hata oluştu:", err);
-        setEatenProducts([]);
-        setSummary(null);
-      } finally {
-        setLoading(false);
-      }
-    };
+    fetchDiaryData(selectedDate);
+  }, [selectedDate]);
 
-    fetchDiaryData();
-  }, [selectedDate, refreshTrigger]);
-
-  // Ürün ekleme operasyonu
-  const handleAddProduct = async (productData) => {
-    try {
-      const payload = {
-        date: selectedDate,
-        productId: productData.productId,
-        weight: productData.weight,
-      };
-      
-      const res = await addProductToDiary(payload);
-      if (res.data.status === "success") {
-        setRefreshTrigger(prev => prev + 1);
-      }
-    } catch (err) {
-      alert("Ürün eklenirken bir hata oluştu.");
-      console.error("Ürün ekleme hatası:", err);
-    }
+  const fetchDiaryData = async (date) => {
+    const res = await getDiaryByDate(date);
+    setEatenProducts(res.data?.data?.eatenProducts || []);
   };
 
-  // Ürün silme operasyonu (Doğrudan selectedDate ve ürünün listedeki benzersiz id'sini kullanır)
-  const handleIdDeleteProduct = async (productRecordId) => {
-    if (!selectedDate || !productRecordId) {
-      console.warn("Silme işlemi için gerekli veriler eksik:", { selectedDate, productRecordId });
-      return;
-    }
-    
-    console.log("Backend'e DELETE isteği fırlatılıyor. Tarih:", selectedDate, "Ürün Kayıt ID:", productRecordId);
-    
-    try {
-      const res = await removeProductFromDiary(selectedDate, productRecordId);
-      if (res.data.status === "success") {
-        setRefreshTrigger(prev => prev + 1);
-      }
-    } catch (err) {
-      alert("Ürün silinirken bir hata oluştu.");
-      console.error("Ürün silme hatası:", err.response?.data || err);
-    }
+  const handleAddProduct = async (productData) => {
+    await addProductToDiary({ date: selectedDate, ...productData });
+    fetchDiaryData(selectedDate);
+    setIsMobileFormOpen(false);
   };
 
   return (
-    <div className={styles.diaryPageContainer}>
-      <div className={styles.leftColumn}>
-        <DiaryDateCalendar 
-          selectedDate={selectedDate} 
-          onDateChange={setSelectedDate} 
+    <div className={css.leftColumn}>
+      {/* 1. Her zaman görünen Takvim */}
+      <DiaryDateCalendar
+        selectedDate={selectedDate}
+        onDateChange={setSelectedDate}
+      />
+
+      {/* 2. Tek Form (Mobilde sınıfı değişir, masaüstünde sabit durur) */}
+      <div
+        className={isMobileFormOpen ? css.mobileFormWrapper : css.formContainer}
+      >
+        <DiaryAddProductForm
+          onAddProduct={handleAddProduct}
+          isMobileFormOpen={isMobileFormOpen}
         />
-        
-        <DiaryAddProductForm 
-          onAddProduct={handleAddProduct} 
-        />
-        
-        {loading ? (
-          <p>Loading diary records...</p>
-        ) : (
-          <DiaryProductsList 
-            eatenProducts={eatenProducts} 
-            onDeleteProduct={handleIdDeleteProduct} 
-          />
-        )}
       </div>
 
-      <div className={styles.rightColumn}>
-        <RightSideBar 
-          summary={summary} 
-          selectedDate={selectedDate} 
-        />
-      </div>
+      {/* 3. Liste (Mobilde form açılınca gizlenir) */}
+      {!isMobileFormOpen && (
+        <div className={css.listWrapper}>
+          <DiaryProductsList
+            eatenProducts={eatenProducts}
+            onDeleteProduct={removeProductFromDiary}
+          />
+        </div>
+      )}
+
+      {/* 4. Sadece Mobildeki Artı Butonu */}
+      {!isMobileFormOpen && (
+        <button
+          className={css.mobileAddTrigger}
+          onClick={() => setIsMobileFormOpen(true)}
+        >
+          +
+        </button>
+      )}
     </div>
   );
 }
