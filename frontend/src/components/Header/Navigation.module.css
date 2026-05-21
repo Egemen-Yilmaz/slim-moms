@@ -1,5 +1,19 @@
 .nav {
   display: none;
+  font-family: var(--font-family, "Verdana", Geneva, Tahoma, sans-serif);
+  font-size: 14px;
+}
+
+/* 1. Normal linkler (aktif değilken) koyu renk ve kalın (Bold) */
+.nav a {
+  text-decoration: none;
+  font-weight: var(--font-weight-bold, 700);
+  color: #212121; /* Normal koyu renk */
+}
+
+/* 2. Seçili/Aktif olan link ise griye dönecek */
+.nav a:global(.active) {
+  color: #9b9faa !important; /* Seçilince aktif olan gri renk */
 }
 
 /* TABLET */
@@ -7,8 +21,11 @@
   .nav {
     display: flex;
     gap: 20px;
-
     align-items: center;
+  }
+
+  .nav.authNav {
+    display: none;
   }
 }
 
@@ -16,29 +33,26 @@
 @media (min-width: 1280px) {
   .nav {
     gap: 30px;
-    margin-left: 40px;
+    margin-left: 0;
   }
 
-  .nav a {
+  .nav.authNav {
+    display: flex;
+  }
+
+  /* Slim Moms logosundan hemen sonra, yani ilk linkin (Diary) soluna gri çizgi */
+  .nav.authNav a:first-child {
     position: relative;
-    font-weight: 500;
   }
 
-  .nav a::before {
+  .nav.authNav a:first-child::before {
     content: "";
     position: absolute;
-
     left: -20px;
     top: 50%;
     transform: translateY(-50%);
-
     width: 1px;
-    height: 20px;
-
-    background: #ccc;
-  }
-
-  .nav a:first-child::before {
-    display: none;
+    height: 22px;
+    background: #e0e0e0; /* Dikey gri çizgi */
   }
 }
