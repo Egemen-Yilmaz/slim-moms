@@ -100,36 +100,44 @@ const addProductToDiary = async (req, res, next) => {
   }
 };
 
-// 3. GÜNLÜKTEN ÜRÜN SİLME (DELETE /api/diary/:diaryId/product/:productId)
 const removeProductFromDiary = async (req, res, next) => {
   try {
-    const { diaryId, productId } = req.params;
+    const { productId } = req.params; 
+    const userId = req.user.id; // Diğer fonksiyonlarındaki gibi req.user.id aldık
 
+    // Senin modelindeki alan adı 'uid' olduğu için sorguyu uid ile yapıyoruz
     const updatedDiary = await Diary.findOneAndUpdate(
-      { _id: diaryId, uid: req.user.id },
-      { $pull: { eatenProducts: { _id: productId } } },
+      { 
+        uid: userId, 
+        "eatenProducts._id": productId 
+      },
+      { 
+        $pull: { eatenProducts: { _id: productId } } 
+      },
       { new: true }
     );
 
     if (!updatedDiary) {
-      return res.status(HTTP_STATUS.NOT_FOUND).json({ status: 'fail', message: 'Günlük kaydı veya ürün bulunamadı.' });
+      return res.status(HTTP_STATUS.NOT_FOUND).json({
+        status: "error",
+        message: "Diary record or product not found for this user",
+      });
     }
 
-    // 🔥 Dinamik Özet Hesaplama
-    const summary = await calculateDiarySummary(req.user.id, updatedDiary, updatedDiary.date);
+    // Ekstra Garanti: Silme işleminden sonra güncel kalori özetini hesaplayıp dönelim
+    const summary = await calculateDiarySummary(userId, updatedDiary, updatedDiary.date);
 
     return res.status(HTTP_STATUS.OK).json({
-      status: 'success',
+      status: "success",
+      message: "Product successfully removed from diary",
       data: {
-        _id: updatedDiary._id,
-        uid: updatedDiary.uid,
         date: updatedDiary.date,
         eatenProducts: updatedDiary.eatenProducts,
-        summary // 👈 Frontend silme yaptıktan sonra sağ barı anında güncelleyebilecek!
+        summary
       }
     });
-  } catch (err) {
-    next(err);
+  } catch (error) {
+    next(error); // Diğer fonksiyonlarındaki gibi hata yönetimini Express next'e bıraktık
   }
 };
 

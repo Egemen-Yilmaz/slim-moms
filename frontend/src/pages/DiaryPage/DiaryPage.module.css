@@ -1,6 +1,35 @@
-.page {
-  padding: 20px;
+/* GEÇİCİ TASARIM */
+
+.diaryPageContainer {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  width: 100%;
+  min-height: calc(100vh - 80px);
+}
+
+.leftColumn {
+  flex: 2;
+  padding: 40px 20px;
+}
+
+.rightColumn {
+  flex: 1;
+  background-color: #f0f1f3;
+  padding: 40px 20px;
+}
+
+/* Tablet ve Masaüstü Ekran Düzenlemeleri */
+@media (min-width: 768px) {
+  .diaryPageContainer {
+    flex-direction: row;
+  }
+  
+  .leftColumn {
+    padding: 60px 40px;
+  }
+  
+  .rightColumn {
+    padding: 60px 40px;
+    min-width: 300px;
+  }
 }
