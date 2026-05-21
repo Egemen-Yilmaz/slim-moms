@@ -7,41 +7,53 @@
 }
 
 .icon {
-  height: 28px;
   width: auto;
+  height: 28px;
+
+  flex-shrink: 0;
 }
 
 .text {
-  display: flex;
+  display: none;
+
+  align-items: center;
   gap: 4px;
 
   font-weight: 700;
+  line-height: 1;
 }
 
 .slim {
-  color: black;
+  color: #212121;
 }
 
 .mom {
-  color: orange;
+  color: #fc842d;
 }
 
-@media (min-width: 768px) {
+/* TABLET */
+@media screen and (min-width: 768px) {
   .icon {
     height: 34px;
   }
 
   .text {
+    display: flex;
     font-size: 18px;
   }
 }
 
-@media (min-width: 1280px) {
+/* DESKTOP */
+@media screen and (min-width: 1280px) {
   .logo {
     transform: translateY(-6px);
   }
 
+  .icon {
+    height: 44px;
+  }
+
   .text {
-    font-size: 20px;
+    font-size: 22px;
   }
 }

@@ -1,22 +1,36 @@
 .header {
   display: flex;
+  align-items: stretch;
   justify-content: space-between;
-  align-items: center;
 
-  padding: 16px;
+  height: 80px;
+  padding: 0 16px;
+
+  background: #ffffff;
 }
 
-/* LEFT SIDE */
+/* LEFT */
 .left {
   display: flex;
   align-items: center;
 }
 
-/* RIGHT SIDE */
+/* CENTER NAV */
+.center {
+  display: none;
+}
+
+/* RIGHT */
 .right {
   display: flex;
   align-items: center;
-  gap: 16px;
+  height: 100%;
+  gap: 12px;
+}
+
+/* USER (tablet/desktop header version) */
+.userDesktop {
+  display: none;
 }
 
 /* BURGER */
@@ -27,38 +41,69 @@
   cursor: pointer;
 }
 
-/* NAV DEFAULT (MOBILE) */
-.nav {
-  display: none;
+/* ===================== */
+/* MOBILE USER BAR */
+.mobileUserBar {
+  display: flex;
+  justify-content: flex-end; /* sağa yapışık */
+  align-items: center;
+
+  padding: 12px 16px;
+  background: #f0f1f3;
 }
 
+/* ===================== */
 /* TABLET */
 @media (min-width: 768px) {
   .header {
-    padding: 20px 32px;
+    padding: 0 32px;
   }
 
-  .nav {
+  .center {
     display: flex;
-    gap: 20px;
+    flex: 1;
+    justify-content: center;
   }
 
-  .burger {
-    display: block;
-  }
-}
-
-/* DESKTOP */
-@media (min-width: 1280px) {
-  .header {
-    border-bottom: 1px solid #e0e0e0;
-  }
-
-  .right {
+  /* tablet: user header içine girer */
+  .userDesktop {
+    display: flex;
+    align-items: center;
+    height: 100%;
     margin-left: auto;
   }
 
-  .nav {
-    gap: 40px;
+  /* mobile bar kapanır */
+  .mobileUserBar {
+    display: none;
+  }
+}
+
+/* ======================================================= */
+/* DESKTOP HEADER                                          */
+/* ======================================================= */
+@media (min-width: 1280px) {
+  .header {
+    border-bottom: 1px solid #e0e0e0;
+    padding: 0 40px;
+    width: 100%; /* Bulunduğu %70'lik alanın dışına asla taşmaz */
+  }
+
+  .center {
+    justify-content: flex-start;
+    margin-left: 40px;
+  }
+
+  /* Header içindeki user linklerini masaüstünde kapatıyoruz */
+  .userDesktop {
+    display: none;
+  }
+
+  .burger {
+    display: none;
+  }
+
+  .mobileUserBar {
+    display: none;
   }
 }
