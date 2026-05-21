@@ -1,18 +1,108 @@
-/* Masaüstü görünümde mobil kullanıcı barını tamamen gizle */
-@media (min-width: 769px) {
-  .mobileUserBar {
-    display: none !important;
+.header {
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  height: 80px;
+  padding: 0 16px;
+  background: #ffffff;
+}
+
+/* LEFT */
+.left {
+  display: flex;
+  align-items: center;
+}
+
+/* CENTER NAV */
+.center {
+  display: none;
+}
+
+/* RIGHT */
+.right {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  gap: 12px;
+}
+
+/* USER (tablet/desktop header version) */
+.userDesktop {
+  display: none;
+}
+
+/* BURGER */
+.burger {
+  background: none;
+  border: none;
+  font-size: 28px;
+  cursor: pointer;
+}
+
+/* MOBILE USER BAR */
+.mobileUserBar {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 12px 16px;
+  background: #f0f1f3;
+}
+
+/* ===================== */
+/* TABLET (768px) */
+/* ===================== */
+@media (min-width: 768px) {
+  .header {
+    padding: 0 32px;
   }
+
+  .center {
+    display: flex;
+    flex: 1;
+    /* Logoya yapışık durması ve masaüstü çizgisine zemin hazırlamak için sola yasladık */
+    justify-content: flex-start;
+    margin-left: 20px;
+  }
+
   .userDesktop {
-    display: block !important;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    margin-left: auto;
+  }
+
+  .mobileUserBar {
+    display: none;
+  }
+
+  /* ÖNEMLİ: Tablette linkler gizlendiği için burger butonu görünmeye devam etmeli */
+  .burger {
+    display: block;
   }
 }
 
-/* Mobil görünümde masaüstü kullanıcı alanını tamamen gizle */
-@media (max-width: 768px) {
+/* ======================================================= */
+/* DESKTOP HEADER (1280px)                                 */
+/* ======================================================= */
+@media (min-width: 1280px) {
+  .header {
+    border-bottom: none;
+  }
+
+  .center {
+    justify-content: flex-start;
+    margin-left: 40px; /* Logodan sonraki boşluk miktarı */
+  }
+
   .userDesktop {
     display: none !important;
   }
+
+  /* Masaüstünde artık burger butonunu tamamen gizliyoruz */
+  .burger {
+    display: none;
+  }
+
   .mobileUserBar {
     display: flex;
     justify-content: flex-end;

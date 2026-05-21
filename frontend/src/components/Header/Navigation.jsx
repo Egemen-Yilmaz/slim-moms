@@ -7,16 +7,17 @@ export default function Navigation({ isLoggedIn }) {
     `${css.link} ${isActive ? css.activeLink : ""}`;
 
   return (
-    <nav className={css.nav}>
+    /* isLoggedIn durumuna göre nav elementine ekstra bir class veriyoruz */
+    <nav className={`${css.nav} ${isLoggedIn ? css.authNav : ""}`}>
       {!isLoggedIn ? (
         <>
-          <NavLink to="/login" className={linkClassName}>Login</NavLink>
-          <NavLink to="/register" className={linkClassName}>Registration</NavLink>
+          <NavLink to="/login">LOGIN</NavLink>
+          <NavLink to="/register">REGISTRATION</NavLink>
         </>
       ) : (
         <>
-          <NavLink to="/diary" className={linkClassName}>Diary</NavLink>
-          <NavLink to="/calculator" className={linkClassName}>Calculator</NavLink>
+          <NavLink to="/diary">DIARY</NavLink>
+          <NavLink to="/calculator">CALCULATOR</NavLink>
         </>
       )}
     </nav>

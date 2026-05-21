@@ -18,8 +18,7 @@
   --color-success: #3cbc81;
 
   /* ================= TYPOGRAPHY ================= */
-
-  --font-family: Verdana, Geneva, Tahoma, sans-serif;
+  --font-family: "Verdana", Geneva, Tahoma, sans-serif;
 
   --font-size-h1: 34px;
   --font-size-h2: 24px;
@@ -27,11 +26,7 @@
   --font-size-small: 12px;
 
   --font-weight-regular: 400;
-  --font-weight-medium: 500;
   --font-weight-bold: 700;
-
-  --line-height-heading: 1.2;
-  --line-height-body: 1.6;
 
   /* ================= SPACING ================= */
 

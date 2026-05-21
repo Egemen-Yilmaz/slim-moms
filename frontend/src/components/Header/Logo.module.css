@@ -15,12 +15,12 @@
 
 .text {
   display: none;
-
   align-items: center;
-  gap: 4px;
-
-  font-weight: 700;
+  font-family: "Verdana", Geneva, Tahoma, sans-serif;
+  font-size: 16px;
+  font-weight: 100;
   line-height: 1;
+  margin-bottom: -5px;
 }
 
 .slim {
@@ -39,7 +39,6 @@
 
   .text {
     display: flex;
-    font-size: 18px;
   }
 }
 
@@ -50,10 +49,12 @@
   }
 
   .icon {
+    margin-top: -15px;
     height: 44px;
   }
 
   .text {
-    font-size: 22px;
+    margin-left: -15px;
+    margin-bottom: -15px;
   }
 }

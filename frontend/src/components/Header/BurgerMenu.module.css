@@ -1,25 +1,20 @@
 .overlay {
   position: fixed;
   inset: 0;
-
   background: white;
-
   display: flex;
   flex-direction: column;
-
   justify-content: center;
   align-items: center;
-
   gap: 40px;
+  z-index: 999; /* Sayfa içeriklerinin tamamen üstünde kalması için */
 }
 
 .close {
   position: absolute;
   top: 20px;
   right: 20px;
-
   font-size: 28px;
-
   background: none;
   border: none;
   cursor: pointer;
@@ -29,11 +24,21 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
-
   font-size: 24px;
 }
 
-@media (min-width: 768px) {
+.menu a {
+  text-decoration: none;
+  color: #212121;
+}
+
+/* Burger menü içinde aktif olan linkin rengini gri yapar */
+.menu a:global(.active) {
+  color: #9b9faa !important;
+}
+
+/* BURASI DEĞİŞTİ: Tablette de tam ekran açılması için gizleme sınırını 1280px'e çektik */
+@media (min-width: 1280px) {
   .overlay {
     display: none;
   }
