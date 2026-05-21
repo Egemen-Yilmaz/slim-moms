@@ -1,0 +1,33 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(255, 255, 255, 0.7); /* Arkadaki içeriği hafif karartır */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999; /* Her zaman en üstte görünmesi için */
+  backdrop-filter: blur(3px); /* Şık bir modern fluluk efekti */
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 5px solid #e0e0e0;
+  border-bottom-color: #fc842c; /* Projenizin imzası olan o meşhur turuncu renk */
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

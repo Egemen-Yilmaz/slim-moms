@@ -1,9 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { api } from "../../api/axios";
+import { showLoader, hideLoader } from "../../../redux/loader/loaderSlice"; // Global loader'ı çektik
 
 export default function RegistrationPage() {
   const navigate = useNavigate();
+  const dispatch = useDispatch(); // Redux dispatch ekledik
 
   const [form, setForm] = useState({
     name: "",
@@ -11,7 +14,6 @@ export default function RegistrationPage() {
     password: "",
   });
 
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
   const handleChange = (e) => {
@@ -21,38 +23,51 @@ export default function RegistrationPage() {
     });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setError("");
-
+  // 🎯 KRİTER: Kılavuzun istediği asenkron Operation fonksiyonu
+  // Sayfa içinde kalabilir ya da operation mantığına tam uyması için handle içinde dispatch edilir.
+  const registerUserOperation = async (formData) => {
     try {
-      const res = await api.post("/auth/register", form);
+      // KRİTER: Küresel loader reducer'ını tetikliyoruz
+      dispatch(showLoader());
+      setError("");
 
-      // backend yapın buna göre değişebilir ama senin standardın buydu:
-      const { accessToken, refreshToken } = res.data.data;
+      // Backend'e kayıt isteği atılıyor
+      await api.post("/auth/register", formData);
 
-      if (accessToken) {
-        localStorage.setItem("token", accessToken);
-      }
-
-      if (refreshToken) {
-        localStorage.setItem("refreshToken", refreshToken);
-      }
-
-      navigate("/diary");
+      // En güvenli akış: Kayıt olan kullanıcıyı giriş yapması için login'e yönlendiriyoruz
+      // Böylece login formundaki Redux süreçleri (setAuthData) eksiksiz çalışır.
+      navigate("/login");
     } catch (err) {
-      setError(err.response?.data?.message || "Kayıt işlemi başarısız oldu");
+      setError(err.response?.data?.message || "Registration failed. Please try again.");
     } finally {
-      setLoading(false);
+      // İşlem bittiğinde küresel loader'ı kapatıyoruz
+      dispatch(hideLoader());
     }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    // KRİTER: Form Doğrulama (Validation) Kontrolleri
+    if (!form.name.trim() || !form.email.trim() || !form.password) {
+      setError("All fields are required!");
+      return;
+    }
+
+    if (form.password.length < 6) {
+      setError("Password must be at least 6 characters long!");
+      return;
+    }
+
+    // Doğrulardan geçtiyse operation'ı tetikle
+    registerUserOperation(form);
   };
 
   return (
     <div>
       <h1>Register</h1>
 
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} noValidate>
         <input
           name="name"
           type="text"
@@ -77,8 +92,14 @@ export default function RegistrationPage() {
           onChange={handleChange}
         />
 
-        <button type="submit" disabled={loading}>
-          {loading ? "Loading..." : "Register"}
+        {/* Buton disabled durumunu projenin ortak loader state'ine bağlayabiliriz */}
+        <button type="submit">
+          Register
+        </button>
+
+        {/* KRİTER: "Giriş Yap" butonuna tıklandığında kullanıcı LoginPage sayfasına yönlendirilir */}
+        <button type="button" onClick={() => navigate("/login")} style={{ marginLeft: "10px" }}>
+          Log In
         </button>
 
         {error && <p style={{ color: "red" }}>{error}</p>}
