@@ -1,0 +1,84 @@
+/* RegistrationPage.module.css */
+
+/* ==========================================================================
+   1. MOBİL ÖNCELİKLİ (MOBILE-FIRST) TASARIM (0px - 767px)
+   Mobilde mevcut düzeni (ortalı kalmasını) hiç bozmuyoruz.
+   ========================================================================== */
+.pageWrapper {
+  width: 100%;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+.contentArea {
+  width: 100%;
+  padding: 40px 20px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.title {
+  font-family: "Gotham Pro", "Verdana", sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #fc842c;
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.backgroundDecoration {
+  display: none;
+}
+
+/* ==========================================================================
+   2. TABLET VE DESKTOP İÇİN KESİN ÇÖZÜM (768px ve Üzeri)
+   Kapsayıcının baskısını kırmak için içeriği tamamen serbest bırakıyoruz.
+   ========================================================================== */
+@media screen and (min-width: 768px) {
+  .contentArea {
+    /* İŞTE SİHİRLİ DOKUNUŞ: Formu ve başlığı layout'tan koparıp sola çiviliyoruz */
+    position: absolute;
+    left: 32px;
+    top: 160px;
+    width: 390px;
+
+    /* Kendi içindeki başlık ve formu sola yasla */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0;
+    margin: 0;
+  }
+
+  .title {
+    text-align: left;
+    margin-left: 0;
+    width: 100%;
+  }
+}
+
+/* ==========================================================================
+   3. DESKTOP TASARIMI (1280px ve Üzeri)
+   ========================================================================== */
+@media screen and (min-width: 1280px) {
+  .contentArea {
+    left: 100px; /* Büyük ekran kurumsal sol grid boşluğu */
+    top: 250px; /* Tasarımdaki orijinal dikey konumu */
+  }
+
+  .backgroundDecoration {
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 40vw;
+    height: 100vh;
+    background-repeat: no-repeat;
+    background-position: top right;
+    z-index: -1;
+  }
+}
