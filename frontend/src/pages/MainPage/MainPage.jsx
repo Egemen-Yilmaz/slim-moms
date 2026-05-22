@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import DailyCaloriesForm from "../../components/forms/DailyCaloriesForm/DailyCaloriesForm";
+import DailyCaloriesForm from "../../components/forms/DailyCaloriesForm/DailyCaloriesForm.jsx";
 
 import Modal from "../../components/common/Modal/Modal";
 

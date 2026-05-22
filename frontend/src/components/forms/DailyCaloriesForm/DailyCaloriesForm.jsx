@@ -1,12 +1,8 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux"; // Redux dispatch ekledik
-import { api } from "../../../api/axios";
+import { api } from "../../../api/axios.js"; // ✨ Doğru bağıntı yolu (3 kat yukarıda)
 import { toast } from "react-toastify";
-import { showLoader, hideLoader } from "../../../redux/loader/loaderSlice"; // Global loader'ı çektik
 
 export default function DailyCaloriesForm({ openModal, isPrivate = false }) {
-  const dispatch = useDispatch();
-
   const [formData, setFormData] = useState({
     weight: "",
     height: "",
@@ -15,7 +11,7 @@ export default function DailyCaloriesForm({ openModal, isPrivate = false }) {
     bloodType: "0",
   });
 
-  // 🎯 KRİTER: Hata mesajlarını inputların altında şıkça göstermek için state
+  const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
 
   const handleChange = (e) => {
@@ -23,13 +19,11 @@ export default function DailyCaloriesForm({ openModal, isPrivate = false }) {
       ...prev,
       [e.target.name]: e.target.value,
     }));
-    // Kullanıcı yazmaya başladığında o alanın hatasını temizle
     if (errors[e.target.name]) {
       setErrors((prev) => ({ ...prev, [e.target.name]: "" }));
     }
   };
 
-  // 🎯 KRİTER: Gelişmiş JavaScript Doğrulama (Validation) Fonksiyonu
   const validateForm = () => {
     const newErrors = {};
     const h = Number(formData.height);
@@ -49,28 +43,24 @@ export default function DailyCaloriesForm({ openModal, isPrivate = false }) {
     if (!formData.targetWeight || isNaN(tw) || tw < 30 || tw > 300) {
       newErrors.targetWeight = "Please enter a valid desired weight.";
     }
-    // Zayıflama mantığı kontrolü: Hedef kilo şu anki kilodan küçük olmalı
     if (w && tw && tw >= w) {
       newErrors.targetWeight = "Desired weight must be less than current weight.";
     }
 
     setErrors(newErrors);
-    // Eğer hata objesi boşsa true döner, form gönderilebilir demektir
     return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // 🎯 Doğrulamadan geçemezse isteği durdur
     if (!validateForm()) {
       toast.error("Please fix the errors in the form.");
       return;
     }
 
     try {
-      // KRİTER: Global loader tetikleniyor
-      dispatch(showLoader());
+      setLoading(true);
 
       const payload = {
         weight: Number(formData.weight),
@@ -81,7 +71,6 @@ export default function DailyCaloriesForm({ openModal, isPrivate = false }) {
       };
 
       const endpoint = isPrivate ? "/products/user-calorie" : "/products/public-calorie";
-      
       const res = await api.post(endpoint, payload);
 
       toast.success("Calculation completed successfully");
@@ -95,20 +84,18 @@ export default function DailyCaloriesForm({ openModal, isPrivate = false }) {
       const errorMessage = err.response?.data?.message || "Calculation failed.";
       toast.error(errorMessage);
     } finally {
-      // KRİTER: Global loader kapatılıyor
-      dispatch(hideLoader());
+      setLoading(false);
     }
   };
 
   return (
     <div style={{ background: "white", padding: "30px", borderRadius: "8px", boxShadow: "0 4px 12px rgba(0,0,0,0.05)", maxWidth: "500px", margin: "0 auto" }}>
-      <h1 style={{ fontSize: "24px", color: "#212121", marginBottom: "30px", fontFamily: "Verdana, sans-serif", fontWeight: "bold" }}>
+      <h1 style={{ fontSize: "24px", color: "#212121", marginBottom: "30px", fontFamily: "sans-serif", fontWeight: "bold" }}>
         Calculate your daily calorie intake now
       </h1>
 
       <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "15px" }} noValidate>
         
-        {/* HEIGHT */}
         <div style={{ display: "flex", flexDirection: "column" }}>
           <input
             name="height"
@@ -121,7 +108,6 @@ export default function DailyCaloriesForm({ openModal, isPrivate = false }) {
           {errors.height && <span style={{ color: "red", fontSize: "12px", marginTop: "4px" }}>{errors.height}</span>}
         </div>
 
-        {/* AGE */}
         <div style={{ display: "flex", flexDirection: "column" }}>
           <input
             name="age"
@@ -134,7 +120,6 @@ export default function DailyCaloriesForm({ openModal, isPrivate = false }) {
           {errors.age && <span style={{ color: "red", fontSize: "12px", marginTop: "4px" }}>{errors.age}</span>}
         </div>
 
-        {/* CURRENT WEIGHT */}
         <div style={{ display: "flex", flexDirection: "column" }}>
           <input
             name="weight"
@@ -147,7 +132,6 @@ export default function DailyCaloriesForm({ openModal, isPrivate = false }) {
           {errors.weight && <span style={{ color: "red", fontSize: "12px", marginTop: "4px" }}>{errors.weight}</span>}
         </div>
 
-        {/* DESIRED WEIGHT */}
         <div style={{ display: "flex", flexDirection: "column" }}>
           <input
             name="targetWeight"
@@ -160,7 +144,6 @@ export default function DailyCaloriesForm({ openModal, isPrivate = false }) {
           {errors.targetWeight && <span style={{ color: "red", fontSize: "12px", marginTop: "4px" }}>{errors.targetWeight}</span>}
         </div>
 
-        {/* BLOOD TYPE */}
         <div style={{ display: "flex", flexDirection: "column", gap: "5px", marginTop: "10px" }}>
           <label style={{ fontSize: "14px", color: "#9b9b9b" }}>Blood Type *</label>
           <select
@@ -178,9 +161,10 @@ export default function DailyCaloriesForm({ openModal, isPrivate = false }) {
 
         <button 
           type="submit"
-          style={{ marginTop: "25px", background: "#fc842c", color: "white", border: "none", padding: "15px", borderRadius: "30px", fontSize: "16px", fontWeight: "bold", cursor: "pointer", boxShadow: "0 4px 6px rgba(252,132,44,0.2)", transition: "background 0.2s" }}
+          disabled={loading}
+          style={{ marginTop: "25px", background: "#fc842c", color: "white", border: "none", padding: "15px", borderRadius: "30px", fontSize: "16px", fontWeight: "bold", cursor: "pointer", boxShadow: "0 4px 6px rgba(252,132,44,0.2)" }}
         >
-          Start losing weight
+          {loading ? "Calculating..." : "Start losing weight"}
         </button>
       </form>
     </div>
