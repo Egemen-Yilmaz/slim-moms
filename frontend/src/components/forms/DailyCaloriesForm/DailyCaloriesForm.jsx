@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { api } from "../../../api/axios.js"; // ✨ Doğru bağıntı yolu (3 kat yukarıda)
+import { api } from "../../../api/axios.js";
 import { toast } from "react-toastify";
+import css from "./dailyCaloriesForm.module.css";
 
 export default function DailyCaloriesForm({ openModal, isPrivate = false }) {
   const [formData, setFormData] = useState({
@@ -10,18 +11,13 @@ export default function DailyCaloriesForm({ openModal, isPrivate = false }) {
     targetWeight: "",
     bloodType: "0",
   });
-
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
 
   const handleChange = (e) => {
-    setFormData((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
-    if (errors[e.target.name]) {
+    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    if (errors[e.target.name])
       setErrors((prev) => ({ ...prev, [e.target.name]: "" }));
-    }
   };
 
   const validateForm = () => {
@@ -31,22 +27,17 @@ export default function DailyCaloriesForm({ openModal, isPrivate = false }) {
     const w = Number(formData.weight);
     const tw = Number(formData.targetWeight);
 
-    if (!formData.height || isNaN(h) || h < 100 || h > 250) {
-      newErrors.height = "Please enter a realistic height (100-250 cm).";
-    }
-    if (!formData.age || isNaN(a) || a < 18 || a > 100) {
-      newErrors.age = "Age must be between 18 and 100.";
-    }
-    if (!formData.weight || isNaN(w) || w < 30 || w > 300) {
-      newErrors.weight = "Please enter a valid weight (30-300 kg).";
-    }
-    if (!formData.targetWeight || isNaN(tw) || tw < 30 || tw > 300) {
-      newErrors.targetWeight = "Please enter a valid desired weight.";
-    }
-    if (w && tw && tw >= w) {
+    if (!formData.height || isNaN(h) || h < 100 || h > 250)
+      newErrors.height = "Realistic height (100-250 cm).";
+    if (!formData.age || isNaN(a) || a < 18 || a > 100)
+      newErrors.age = "Age (18-100).";
+    if (!formData.weight || isNaN(w) || w < 30 || w > 300)
+      newErrors.weight = "Weight (30-300 kg).";
+    if (!formData.targetWeight || isNaN(tw) || tw < 30 || tw > 300)
+      newErrors.targetWeight = "Invalid desired weight.";
+    if (w && tw && tw >= w)
       newErrors.targetWeight =
         "Desired weight must be less than current weight.";
-    }
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -54,212 +45,108 @@ export default function DailyCaloriesForm({ openModal, isPrivate = false }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (!validateForm()) {
-      toast.error("Please fix the errors in the form.");
-      return;
-    }
+    if (!validateForm())
+      return toast.error("Please fix the errors in the form.");
 
     try {
       setLoading(true);
-
-      const payload = {
+      const endpoint = isPrivate
+        ? "/products/user-calorie"
+        : "/products/public-calorie";
+      const res = await api.post(endpoint, {
         weight: Number(formData.weight),
         height: Number(formData.height),
         age: Number(formData.age),
         targetWeight: Number(formData.targetWeight),
         bloodType: formData.bloodType,
-      };
-
-      const endpoint = isPrivate
-        ? "/products/user-calorie"
-        : "/products/public-calorie";
-      const res = await api.post(endpoint, payload);
+      });
 
       toast.success("Calculation completed successfully");
-
       if (openModal) {
-        const calorieValue = res.data.data || res.data;
-        openModal(calorieValue);
+        openModal(res.data.data || res.data);
       }
     } catch (err) {
-      console.error("CALCULATION ERROR:", err);
-      const errorMessage = err.response?.data?.message || "Calculation failed.";
-      toast.error(errorMessage);
+      toast.error(err.response?.data?.message || "Calculation failed.");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div
-      style={{
-        background: "white",
-        padding: "30px",
-        borderRadius: "8px",
-        boxShadow: "0 4px 12px rgba(0,0,0,0.05)",
-        maxWidth: "500px",
-        margin: "0 auto",
-      }}
-    >
-      <h1
-        style={{
-          fontSize: "24px",
-          color: "#212121",
-          marginBottom: "30px",
-          fontFamily: "sans-serif",
-          fontWeight: "bold",
-        }}
-      >
-        Calculate your daily calorie intake now
+    <div className={css.container}>
+      <h1 className={css.title}>
+        Calculate your daily <br /> calorie intake right now
       </h1>
-
-      <form
-        onSubmit={handleSubmit}
-        style={{ display: "flex", flexDirection: "column", gap: "15px" }}
-        noValidate
-      >
-        <div style={{ display: "flex", flexDirection: "column" }}>
-          <input
-            name="height"
-            type="number"
-            placeholder="Height (cm) *"
-            value={formData.height}
-            onChange={handleChange}
-            style={{
-              padding: "12px 0",
-              border: "none",
-              borderBottom: errors.height
-                ? "1px solid red"
-                : "1px solid #e0e0e0",
-              outline: "none",
-              fontSize: "16px",
-            }}
-          />
-          {errors.height && (
-            <span style={{ color: "red", fontSize: "12px", marginTop: "4px" }}>
-              {errors.height}
-            </span>
-          )}
+      <form onSubmit={handleSubmit} className={css.form} noValidate>
+        <div className={css.leftColumn}>
+          <div className={css.inputGroup}>
+            <input
+              name="height"
+              type="number"
+              placeholder="Height *"
+              value={formData.height}
+              onChange={handleChange}
+              className={`${css.input} ${errors.height ? css.inputError : ""}`}
+            />
+            {errors.height && (
+              <span className={css.errorText}>{errors.height}</span>
+            )}
+          </div>
+          <div className={css.inputGroup}>
+            <input
+              name="age"
+              type="number"
+              placeholder="Age *"
+              value={formData.age}
+              onChange={handleChange}
+              className={`${css.input} ${errors.age ? css.inputError : ""}`}
+            />
+            {errors.age && <span className={css.errorText}>{errors.age}</span>}
+          </div>
+          <div className={css.inputGroup}>
+            <input
+              name="weight"
+              type="number"
+              placeholder="Current Weight *"
+              value={formData.weight}
+              onChange={handleChange}
+              className={`${css.input} ${errors.weight ? css.inputError : ""}`}
+            />
+            {errors.weight && (
+              <span className={css.errorText}>{errors.weight}</span>
+            )}
+          </div>
         </div>
-
-        <div style={{ display: "flex", flexDirection: "column" }}>
-          <input
-            name="age"
-            type="number"
-            placeholder="Age *"
-            value={formData.age}
-            onChange={handleChange}
-            style={{
-              padding: "12px 0",
-              border: "none",
-              borderBottom: errors.age ? "1px solid red" : "1px solid #e0e0e0",
-              outline: "none",
-              fontSize: "16px",
-            }}
-          />
-          {errors.age && (
-            <span style={{ color: "red", fontSize: "12px", marginTop: "4px" }}>
-              {errors.age}
-            </span>
-          )}
+        <div className={css.rightColumn}>
+          <div className={css.inputGroup}>
+            <input
+              name="targetWeight"
+              type="number"
+              placeholder="Desired Weight *"
+              value={formData.targetWeight}
+              onChange={handleChange}
+              className={`${css.input} ${errors.targetWeight ? css.inputError : ""}`}
+            />
+            {errors.targetWeight && (
+              <span className={css.errorText}>{errors.targetWeight}</span>
+            )}
+          </div>
+          <div className={css.inputGroup}>
+            <label className={css.label}>Blood Type *</label>
+            <select
+              name="bloodType"
+              value={formData.bloodType}
+              onChange={handleChange}
+              className={css.input}
+            >
+              <option value="0">0 (I)</option>
+              <option value="A">A (II)</option>
+              <option value="B">B (III)</option>
+              <option value="AB">AB (IV)</option>
+            </select>
+          </div>
         </div>
-
-        <div style={{ display: "flex", flexDirection: "column" }}>
-          <input
-            name="weight"
-            type="number"
-            placeholder="Current Weight (kg) *"
-            value={formData.weight}
-            onChange={handleChange}
-            style={{
-              padding: "12px 0",
-              border: "none",
-              borderBottom: errors.weight
-                ? "1px solid red"
-                : "1px solid #e0e0e0",
-              outline: "none",
-              fontSize: "16px",
-            }}
-          />
-          {errors.weight && (
-            <span style={{ color: "red", fontSize: "12px", marginTop: "4px" }}>
-              {errors.weight}
-            </span>
-          )}
-        </div>
-
-        <div style={{ display: "flex", flexDirection: "column" }}>
-          <input
-            name="targetWeight"
-            type="number"
-            placeholder="Desired Weight (kg) *"
-            value={formData.targetWeight}
-            onChange={handleChange}
-            style={{
-              padding: "12px 0",
-              border: "none",
-              borderBottom: errors.targetWeight
-                ? "1px solid red"
-                : "1px solid #e0e0e0",
-              outline: "none",
-              fontSize: "16px",
-            }}
-          />
-          {errors.targetWeight && (
-            <span style={{ color: "red", fontSize: "12px", marginTop: "4px" }}>
-              {errors.targetWeight}
-            </span>
-          )}
-        </div>
-
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "5px",
-            marginTop: "10px",
-          }}
-        >
-          <label style={{ fontSize: "14px", color: "#9b9b9b" }}>
-            Blood Type *
-          </label>
-          <select
-            name="bloodType"
-            value={formData.bloodType}
-            onChange={handleChange}
-            style={{
-              padding: "12px 0",
-              border: "none",
-              borderBottom: "1px solid #e0e0e0",
-              outline: "none",
-              fontSize: "16px",
-              background: "white",
-            }}
-          >
-            <option value="0">0 (I)</option>
-            <option value="A">A (II)</option>
-            <option value="B">B (III)</option>
-            <option value="AB">AB (IV)</option>
-          </select>
-        </div>
-
-        <button
-          type="submit"
-          disabled={loading}
-          style={{
-            marginTop: "25px",
-            background: "#fc842c",
-            color: "white",
-            border: "none",
-            padding: "15px",
-            borderRadius: "30px",
-            fontSize: "16px",
-            fontWeight: "bold",
-            cursor: "pointer",
-            boxShadow: "0 4px 6px rgba(252,132,44,0.2)",
-          }}
-        >
+        <button type="submit" disabled={loading} className={css.submitBtn}>
           {loading ? "Calculating..." : "Start losing weight"}
         </button>
       </form>

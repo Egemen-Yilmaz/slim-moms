@@ -5,28 +5,140 @@
   flex-direction: column;
 
   background: #fff;
+  position: relative;
+
+  overflow: hidden;
 }
 
+/* =========================
+   BACKGROUND LAYER
+========================= */
+
+.hero {
+  display: none;
+  position: fixed;
+  inset: 0;
+
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Decorative images (right-oriented system) */
+
+.leaf1 {
+  position: absolute;
+  right: 0;
+  top: 10%;
+
+  transform: rotate(270deg);
+}
+
+.banana {
+  position: absolute;
+  right: 0;
+  z-index: 2;
+}
+
+.strawberry {
+  position: absolute;
+  right: 0%;
+  bottom: 2%;
+}
+
+/* =========================
+   MAIN CONTENT AREA
+========================= */
+
 .main {
+  position: relative;
+  z-index: 1;
+
   flex: 1;
 
   display: flex;
-  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+
+  width: 100%;
 
   padding: 16px;
 }
 
-/* TABLET */
+/* Content container (sol hizalama garantisi) */
+
+.container {
+  width: 100%;
+  max-width: 520px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  gap: 16px;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
 @media (min-width: 768px) {
   .main {
     padding: 24px;
   }
+
+  .container {
+    max-width: 600px;
+  }
+
+  .hero {
+    display: block;
+  }
+
+  .banana {
+    position: absolute;
+    top: 60%;
+    z-index: 2;
+  }
+
+  .strawberry {
+    position: absolute;
+    right: 0%;
+    bottom: 20%;
+    z-index: 3;
+  }
+
+  .shape {
+    position: absolute;
+    right: 0;
+    top: 40%;
+    opacity: 0.8;
+  }
 }
 
-/* DESKTOP */
 @media (min-width: 1280px) {
   .main {
-    max-width: 1280px;
-    margin: 0 auto;
+    padding: 32px;
+  }
+
+  .container {
+    max-width: 640px;
+  }
+  .banana {
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 2;
+  }
+
+  .strawberry {
+    position: absolute;
+    right: 0%;
+    bottom: 10%;
+  }
+
+  .shape {
+    position: absolute;
+    right: 0;
+    top: 20%;
   }
 }

@@ -31,7 +31,8 @@ export default function MainPage() {
 
       {isModalOpen && (
         <Modal closeModal={closeModal}>
-          <DailyCalorieIntake data={result} />
+          {/* showRegisterBtn prop'unu true olarak geçiyoruz ki MainPage modalında buton render edilsin */}
+          <DailyCalorieIntake data={result} showRegisterBtn={true} />
         </Modal>
       )}
     </div>
