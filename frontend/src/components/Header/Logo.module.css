@@ -14,13 +14,18 @@
 }
 
 .text {
-  display: none;
+  display: block;
   align-items: center;
   font-family: "Verdana", Geneva, Tahoma, sans-serif;
   font-size: 16px;
   font-weight: 100;
   line-height: 1;
   margin-bottom: -5px;
+}
+
+/* MOBILE-FIRST: Auth sayfalarında yazı varsayılan olarak (mobilde) gizlenir */
+.hideOnMobileAuth {
+  display: none;
 }
 
 .slim {
@@ -38,6 +43,11 @@
   }
 
   .text {
+    display: flex;
+  }
+
+  /* Tablet boyutuna geçildiğinde yazı her koşulda tekrar görünür olur */
+  .hideOnMobileAuth {
     display: flex;
   }
 }

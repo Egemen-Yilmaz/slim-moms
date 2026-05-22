@@ -3,7 +3,7 @@ import css from "./Navigation.module.css";
 
 export default function Navigation({ isLoggedIn }) {
   return (
-    <nav className={`${css.nav} ${isLoggedIn ? css.authNav : ""}`}>
+    <nav className={`${css.nav} ${isLoggedIn ? css.authNav : css.guestNav}`}>
       {!isLoggedIn ? (
         <>
           <NavLink to="/login">LOGIN</NavLink>
