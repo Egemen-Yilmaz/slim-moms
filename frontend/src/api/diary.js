@@ -40,6 +40,6 @@ export const searchProducts = async (query) => {
  */
 export const calculateUserDiet = async (userData) => {
   // Backend'deki diyet hesaplama/kaydetme endpoint'ine POST isteği atıyoruz
-  const response = await api.post('/diet', userData);
+  const response = await api.post("/products/user-calorie", userData);
   return response.data;
 };

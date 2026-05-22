@@ -44,7 +44,8 @@ export default function DailyCaloriesForm({ openModal, isPrivate = false }) {
       newErrors.targetWeight = "Please enter a valid desired weight.";
     }
     if (w && tw && tw >= w) {
-      newErrors.targetWeight = "Desired weight must be less than current weight.";
+      newErrors.targetWeight =
+        "Desired weight must be less than current weight.";
     }
 
     setErrors(newErrors);
@@ -70,13 +71,15 @@ export default function DailyCaloriesForm({ openModal, isPrivate = false }) {
         bloodType: formData.bloodType,
       };
 
-      const endpoint = isPrivate ? "/products/user-calorie" : "/products/public-calorie";
+      const endpoint = isPrivate
+        ? "/products/user-calorie"
+        : "/products/public-calorie";
       const res = await api.post(endpoint, payload);
 
       toast.success("Calculation completed successfully");
 
       if (openModal) {
-        const calorieValue = res.data.data || res.data; 
+        const calorieValue = res.data.data || res.data;
         openModal(calorieValue);
       }
     } catch (err) {
@@ -89,13 +92,33 @@ export default function DailyCaloriesForm({ openModal, isPrivate = false }) {
   };
 
   return (
-    <div style={{ background: "white", padding: "30px", borderRadius: "8px", boxShadow: "0 4px 12px rgba(0,0,0,0.05)", maxWidth: "500px", margin: "0 auto" }}>
-      <h1 style={{ fontSize: "24px", color: "#212121", marginBottom: "30px", fontFamily: "sans-serif", fontWeight: "bold" }}>
+    <div
+      style={{
+        background: "white",
+        padding: "30px",
+        borderRadius: "8px",
+        boxShadow: "0 4px 12px rgba(0,0,0,0.05)",
+        maxWidth: "500px",
+        margin: "0 auto",
+      }}
+    >
+      <h1
+        style={{
+          fontSize: "24px",
+          color: "#212121",
+          marginBottom: "30px",
+          fontFamily: "sans-serif",
+          fontWeight: "bold",
+        }}
+      >
         Calculate your daily calorie intake now
       </h1>
 
-      <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "15px" }} noValidate>
-        
+      <form
+        onSubmit={handleSubmit}
+        style={{ display: "flex", flexDirection: "column", gap: "15px" }}
+        noValidate
+      >
         <div style={{ display: "flex", flexDirection: "column" }}>
           <input
             name="height"
@@ -103,9 +126,21 @@ export default function DailyCaloriesForm({ openModal, isPrivate = false }) {
             placeholder="Height (cm) *"
             value={formData.height}
             onChange={handleChange}
-            style={{ padding: "12px 0", border: "none", borderBottom: errors.height ? "1px solid red" : "1px solid #e0e0e0", outline: "none", fontSize: "16px" }}
+            style={{
+              padding: "12px 0",
+              border: "none",
+              borderBottom: errors.height
+                ? "1px solid red"
+                : "1px solid #e0e0e0",
+              outline: "none",
+              fontSize: "16px",
+            }}
           />
-          {errors.height && <span style={{ color: "red", fontSize: "12px", marginTop: "4px" }}>{errors.height}</span>}
+          {errors.height && (
+            <span style={{ color: "red", fontSize: "12px", marginTop: "4px" }}>
+              {errors.height}
+            </span>
+          )}
         </div>
 
         <div style={{ display: "flex", flexDirection: "column" }}>
@@ -115,9 +150,19 @@ export default function DailyCaloriesForm({ openModal, isPrivate = false }) {
             placeholder="Age *"
             value={formData.age}
             onChange={handleChange}
-            style={{ padding: "12px 0", border: "none", borderBottom: errors.age ? "1px solid red" : "1px solid #e0e0e0", outline: "none", fontSize: "16px" }}
+            style={{
+              padding: "12px 0",
+              border: "none",
+              borderBottom: errors.age ? "1px solid red" : "1px solid #e0e0e0",
+              outline: "none",
+              fontSize: "16px",
+            }}
           />
-          {errors.age && <span style={{ color: "red", fontSize: "12px", marginTop: "4px" }}>{errors.age}</span>}
+          {errors.age && (
+            <span style={{ color: "red", fontSize: "12px", marginTop: "4px" }}>
+              {errors.age}
+            </span>
+          )}
         </div>
 
         <div style={{ display: "flex", flexDirection: "column" }}>
@@ -127,9 +172,21 @@ export default function DailyCaloriesForm({ openModal, isPrivate = false }) {
             placeholder="Current Weight (kg) *"
             value={formData.weight}
             onChange={handleChange}
-            style={{ padding: "12px 0", border: "none", borderBottom: errors.weight ? "1px solid red" : "1px solid #e0e0e0", outline: "none", fontSize: "16px" }}
+            style={{
+              padding: "12px 0",
+              border: "none",
+              borderBottom: errors.weight
+                ? "1px solid red"
+                : "1px solid #e0e0e0",
+              outline: "none",
+              fontSize: "16px",
+            }}
           />
-          {errors.weight && <span style={{ color: "red", fontSize: "12px", marginTop: "4px" }}>{errors.weight}</span>}
+          {errors.weight && (
+            <span style={{ color: "red", fontSize: "12px", marginTop: "4px" }}>
+              {errors.weight}
+            </span>
+          )}
         </div>
 
         <div style={{ display: "flex", flexDirection: "column" }}>
@@ -139,18 +196,46 @@ export default function DailyCaloriesForm({ openModal, isPrivate = false }) {
             placeholder="Desired Weight (kg) *"
             value={formData.targetWeight}
             onChange={handleChange}
-            style={{ padding: "12px 0", border: "none", borderBottom: errors.targetWeight ? "1px solid red" : "1px solid #e0e0e0", outline: "none", fontSize: "16px" }}
+            style={{
+              padding: "12px 0",
+              border: "none",
+              borderBottom: errors.targetWeight
+                ? "1px solid red"
+                : "1px solid #e0e0e0",
+              outline: "none",
+              fontSize: "16px",
+            }}
           />
-          {errors.targetWeight && <span style={{ color: "red", fontSize: "12px", marginTop: "4px" }}>{errors.targetWeight}</span>}
+          {errors.targetWeight && (
+            <span style={{ color: "red", fontSize: "12px", marginTop: "4px" }}>
+              {errors.targetWeight}
+            </span>
+          )}
         </div>
 
-        <div style={{ display: "flex", flexDirection: "column", gap: "5px", marginTop: "10px" }}>
-          <label style={{ fontSize: "14px", color: "#9b9b9b" }}>Blood Type *</label>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "5px",
+            marginTop: "10px",
+          }}
+        >
+          <label style={{ fontSize: "14px", color: "#9b9b9b" }}>
+            Blood Type *
+          </label>
           <select
             name="bloodType"
             value={formData.bloodType}
             onChange={handleChange}
-            style={{ padding: "12px 0", border: "none", borderBottom: "1px solid #e0e0e0", outline: "none", fontSize: "16px", background: "white" }}
+            style={{
+              padding: "12px 0",
+              border: "none",
+              borderBottom: "1px solid #e0e0e0",
+              outline: "none",
+              fontSize: "16px",
+              background: "white",
+            }}
           >
             <option value="0">0 (I)</option>
             <option value="A">A (II)</option>
@@ -159,10 +244,21 @@ export default function DailyCaloriesForm({ openModal, isPrivate = false }) {
           </select>
         </div>
 
-        <button 
+        <button
           type="submit"
           disabled={loading}
-          style={{ marginTop: "25px", background: "#fc842c", color: "white", border: "none", padding: "15px", borderRadius: "30px", fontSize: "16px", fontWeight: "bold", cursor: "pointer", boxShadow: "0 4px 6px rgba(252,132,44,0.2)" }}
+          style={{
+            marginTop: "25px",
+            background: "#fc842c",
+            color: "white",
+            border: "none",
+            padding: "15px",
+            borderRadius: "30px",
+            fontSize: "16px",
+            fontWeight: "bold",
+            cursor: "pointer",
+            boxShadow: "0 4px 6px rgba(252,132,44,0.2)",
+          }}
         >
           {loading ? "Calculating..." : "Start losing weight"}
         </button>
