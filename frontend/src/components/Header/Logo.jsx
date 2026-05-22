@@ -10,7 +10,7 @@ export default function Logo() {
 
   return (
     <Link to="/" className={css.logo}>
-      <img src="/slim-moms.svg" alt="Slim Moms Logo" className={css.icon} />
+      <img src="/favicon.svg" alt="Slim Moms Logo" className={css.icon} />
 
       {/* Eğer auth sayfasındaysak hideOnMobileAuth sınıfını da ekliyoruz */}
       <div className={`${css.text} ${isAuthPage ? css.hideOnMobileAuth : ""}`}>

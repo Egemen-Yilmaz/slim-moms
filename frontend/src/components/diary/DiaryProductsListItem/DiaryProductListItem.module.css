@@ -1,0 +1,58 @@
+.diaryItemRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 0;
+  border-bottom: 1px solid #e0e0e0;
+  gap: 20px;
+}
+
+.diaryItemName {
+  font-family: "Verdana", "Geneva", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  color: #212121;
+  flex: 3;
+  text-align: left;
+}
+
+.diaryItemWeight {
+  font-family: "Verdana", "Geneva", sans-serif;
+  font-size: 14px;
+  letter-spacing: 0.04em;
+  color: #9b9b9b;
+  flex: 1;
+  text-align: right;
+}
+
+.diaryItemCalories {
+  font-family: "Verdana", "Geneva", sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #212121;
+  flex: 1;
+  text-align: right;
+}
+
+.diaryItemUnit {
+  font-size: 12px;
+  font-weight: 400;
+  color: #9b9b9b;
+}
+
+.diaryItemDelete {
+  background: none;
+  border: none;
+  color: #9b9b9b;
+  cursor: pointer;
+  font-size: 14px;
+  font-family: "Verdana", sans-serif;
+  padding: 0 10px;
+  transition: color 0.2s ease;
+}
+
+.diaryItemDelete:hover {
+  color: #fc842c;
+}

@@ -1,0 +1,117 @@
+/* ==========================================================================
+   1. MOBİL ÖNCELİKLİ (MOBILE-FIRST) VARSAYILAN STİLLER (0px - 767px)
+   ========================================================================== */
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+  /* Mobilde alan dar olduğu için doğal akışta ortalayabilir */
+  margin: 0 auto;
+}
+
+.inputField {
+  font-family: "Verdana", sans-serif;
+  font-size: 14px;
+  letter-spacing: 0.04em;
+  padding: 10px 0;
+  border: none;
+  border-bottom: 1px solid #e0e0e0;
+  outline: none;
+  color: #212121;
+  width: 100%;
+  transition: border-color 0.2s ease;
+}
+
+.inputField:focus {
+  border-bottom: 1px solid #fc842c;
+}
+
+.buttonGroup {
+  display: flex;
+  flex-direction: column; /* Mobilde butonlar alt alta */
+  gap: 15px;
+  margin-top: 20px;
+  width: 100%;
+}
+
+.submitBtn {
+  font-family: "Verdana", sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 13px;
+  background: #fc842c;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  width: 100%;
+  box-shadow: 0px 4px 10px rgba(252, 132, 44, 0.25);
+  transition: background-color 0.2s ease;
+}
+
+.submitBtn:hover {
+  background: #de6e1f;
+}
+
+.secondaryBtn {
+  font-family: "Verdana", sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 13px;
+  background: #fff;
+  color: #fc842c;
+  border: 2px solid #fc842c;
+  border-radius: 30px;
+  cursor: pointer;
+  width: 100%;
+  transition: all 0.2s ease;
+}
+
+.secondaryBtn:hover {
+  background: rgba(252, 132, 44, 0.05);
+}
+
+.errorMessage {
+  font-family: "Verdana", sans-serif;
+  font-size: 12px;
+  color: #e10000;
+  margin-top: 5px;
+}
+
+/* ==========================================================================
+   2. TABLET MEDYA SORGUSU (768px ve Üzeri)
+   ========================================================================== */
+@media screen and (min-width: 768px) {
+  .formContainer {
+    max-width: 390px;
+    padding: 0;
+    gap: 30px;
+    margin: 0; /* Formu tamamen SOLA yaslar, ortalamayı kırar */
+  }
+
+  .buttonGroup {
+    flex-direction: row; /* Butonlar yan yana dizilir */
+    gap: 30px; /* Butonlar arası boşluk */
+    margin-top: 30px;
+  }
+
+  .submitBtn,
+  .secondaryBtn {
+    width: 180px; /* Büyük ekranlarda butonlar sabit genişliğe oturur */
+  }
+}
+
+/* ==========================================================================
+   3. DESKTOP MEDYA SORGUSU (1280px ve Üzeri)
+   ========================================================================== */
+@media screen and (min-width: 1280px) {
+  .formContainer {
+    margin: 0; /* Masaüstünde de sola yaslı kalmaya devam eder */
+    gap: 40px;
+  }
+}
