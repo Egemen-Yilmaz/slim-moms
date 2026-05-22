@@ -1,4 +1,4 @@
-import api from "./axios";
+import { api } from "./axios";
 
 // REGISTER
 export const registerUser = (data) => {
@@ -15,7 +15,7 @@ export const logoutUser = (refreshToken) => {
   return api.post("/auth/logout", { refreshToken });
 };
 
-//STAY LOGGED IN(ENDPOINT EKLENECEK)
+//STAY LOGGED IN
 export const getCurrentUser = () => {
   return api.get("/auth/current");
 };

@@ -28,7 +28,7 @@ const authSlice = createSlice({
       state.isLoggedIn = false;
       localStorage.removeItem("token");
       localStorage.removeItem("refreshToken");
-      
+
       // Navigasyon barlarını tetiklemek için yazdığımız custom event
       window.dispatchEvent(new Event("auth-change"));
     },
