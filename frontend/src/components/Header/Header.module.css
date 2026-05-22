@@ -13,7 +13,10 @@
 }
 
 .center {
-  display: none;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  flex: 1;
 }
 
 .right {
@@ -85,16 +88,15 @@
     margin-left: 40px;
   }
 
-  /* MASAÜSTÜNDE beyaz alandaki kullanıcıyı gizliyoruz, çünkü sağ barda çıkacak */
   .userDesktop {
-    display: none !important;
+    display: none;
   }
 
   .mobileUserBar {
-    display: none !important;
+    display: none;
   }
 
   .burger {
-    display: none !important;
+    display: none;
   }
 }

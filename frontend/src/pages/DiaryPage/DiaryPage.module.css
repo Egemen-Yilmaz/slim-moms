@@ -77,7 +77,7 @@
   border: none;
   font-size: 24px;
   cursor: pointer;
-  flex-shrink: 0; /* Butonun asla küçülmesini engelle */
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -88,13 +88,13 @@
 /* Mobildeki tam ekran form */
 .mobileFormWrapper {
   position: fixed;
-  top: 60px; /* Header'ın hemen altından başlasın */
+  top: 60px;
   left: 0;
   width: 100vw;
   height: calc(100vh - 80px);
   background: white;
   z-index: 9999;
-  padding: 20px; /* Padding'i azalttık */
+  padding: 20px;
   gap: 15px;
   display: flex;
   flex-direction: column;
@@ -103,22 +103,21 @@
 .gramsInput {
   text-align: left;
 }
-/* Mobildeki input boyutlarını küçültüyoruz */
+
 .mobileFormWrapper .inputField,
 .mobileFormWrapper .gramsInput {
   width: 400px;
   flex: none;
   display: flex;
-  font-size: 16px; /* Yazı boyutunu küçülttük */
-  padding: 8px 0; /* Padding'i daralttık */
+  font-size: 16px;
+  padding: 8px 0;
   border-bottom: 1px solid #e0e0e0;
 }
 
-/* Mobildeki Add butonu boyutunu küçültüyoruz */
 .mobileBtn {
-  width: 150px; /* Daha küçük bir buton */
+  width: 150px;
   height: 40px;
-  border-radius: 20px; /* Daha zarif */
+  border-radius: 20px;
   margin-top: 20px;
   font-size: 14px;
   display: flex;
@@ -127,7 +126,9 @@
   background-color: #fc842c;
   color: white;
   border: none;
+  box-shadow: 0px 4px 10px rgba(252, 132, 44, 0.35);
 }
+
 .mobileAddTrigger {
   width: 48px;
   height: 48px;
@@ -139,6 +140,7 @@
   align-self: center;
   margin-top: 50px;
   cursor: pointer;
+  box-shadow: 0px 4px 10px rgba(252, 132, 44, 0.35);
 }
 
 @media (max-width: 767px) {

@@ -4,6 +4,14 @@
   font-size: 14px;
 }
 
+/* MOBILE-FIRST: Giriş ve Kayıt linkleri mobilde görünür ve sağa yaslanır */
+.nav.guestNav {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  margin-left: auto; /* Elementi esnek yapıda tamamen sağ köşeye iter */
+}
+
 /* 1. Normal linkler (aktif değilken) koyu renk ve kalın (Bold) */
 .nav a {
   text-decoration: none;
@@ -24,6 +32,11 @@
     align-items: center;
   }
 
+  /* Giriş linkleri tablette de sağa yatık kalmaya devam eder */
+  .nav.guestNav {
+    margin-left: auto;
+  }
+
   .nav.authNav {
     display: none;
   }
@@ -31,6 +44,12 @@
 
 /* DESKTOP */
 @media (min-width: 1280px) {
+  /* Masaüstünde tüm menü düzeni logonun yanına, yani sola hizalanır */
+  .nav.guestNav {
+    margin-left: 0;
+    gap: 30px;
+  }
+
   .nav {
     gap: 30px;
     margin-left: 0;
