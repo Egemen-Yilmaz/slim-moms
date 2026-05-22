@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import UserInfo from "../UserInfo/UserInfo";
 import { getDiaryByDate } from "../../api/diary";
 import css from "./RightSideBar.module.css";
@@ -8,7 +8,8 @@ export default function RightSideBar() {
   const [currentDate, setCurrentDate] = useState(today);
   const [summary, setSummary] = useState(null);
 
-  const fetchSidebarData = async (date) => {
+  // Veri çekme fonksiyonunu useCallback ile sarmalayalım ki bağımlılık olarak güvenle kullanabilelim
+  const fetchSidebarData = useCallback(async (date) => {
     try {
       const res = await getDiaryByDate(date);
       if (res.data && res.data.data) {
@@ -17,32 +18,32 @@ export default function RightSideBar() {
     } catch (err) {
       console.error("Sidebar veri hatası:", err);
     }
-  };
+  }, []);
 
+  // 1. İlk açılışta ve tarih değiştiğinde veriyi çek
   useEffect(() => {
     fetchSidebarData(currentDate);
-  }, [currentDate]);
+  }, [currentDate, fetchSidebarData]);
 
+  // 2. Sol taraftan (DiaryPage) gelen canlı güncellemeleri dinle
   useEffect(() => {
     const handleDiaryUpdate = (event) => {
       const updatedDate = event.detail || currentDate;
       setCurrentDate(updatedDate);
-      fetchSidebarData(updatedDate);
+      fetchSidebarData(updatedDate); // Doğrudan güncel veriyi iste
     };
 
     window.addEventListener("diary-updated", handleDiaryUpdate);
     return () => {
       window.removeEventListener("diary-updated", handleDiaryUpdate);
     };
-  }, [currentDate]);
+  }, [currentDate, fetchSidebarData]);
 
+  // Veri eşitleme (Senin yazdığın güvenli map yapısı)
   const dailyCalorieIntake =
     summary?.summary?.dailyCalorieIntake || summary?.dailyRate || 0;
   const totalEatenCalories =
-    summary?.summary?.totalEatenCalories ||
-    summary?.kcalConsumed ||
-    summary?.totalEatenCalories ||
-    0;
+    summary?.summary?.totalEatenCalories || summary?.kcalConsumed || 0;
   const kcalLeft = summary?.summary?.kcalLeft || summary?.kcalLeft || 0;
   const notAllowedProducts =
     summary?.summary?.notAllowedProducts || summary?.notAllowedProducts || [];
@@ -54,16 +55,12 @@ export default function RightSideBar() {
 
   return (
     <aside className={css.sidebar}>
-      {/* USER AREA */}
       <div className={css.userSection}>
         <UserInfo />
       </div>
 
-      {/* İÇERİK SARMALAYICI: Tablette yan yana durmayı kolaylaştırır */}
       <div className={css.contentWrapper}>
-        {/* SUMMARY BLOCK */}
         <div className={css.summaryBlock}>
-          {/* Burası istediğin gibi birleştirildi, eski p etiketi silindi */}
           <h3>Summary for {currentDate}</h3>
           <ul>
             <li>
@@ -81,7 +78,6 @@ export default function RightSideBar() {
           </ul>
         </div>
 
-        {/* FOOD BLOCK */}
         <div className={css.foodBlock}>
           <h4>Food not recommended</h4>
           <ul>
