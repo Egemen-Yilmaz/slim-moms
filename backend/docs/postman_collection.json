@@ -1,0 +1,102 @@
+{
+  "info": {
+    "name": "Slim Moms Backend",
+    "_postman_id": "slim-moms-collection",
+    "description": "Quick integration tests for Slim Moms API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Register",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{ \"name\": \"Test User\", \"email\": \"test@example.com\", \"password\": \"123456\" }"
+        },
+        "url": { "raw": "http://localhost:8080/api/auth/register", "protocol": "http", "host": [ "localhost" ], "port": "8080", "path": [ "api", "auth", "register" ] }
+      }
+    },
+    {
+      "name": "Login",
+      "request": {
+        "method": "POST",
+        "header": [ { "key": "Content-Type", "value": "application/json" } ],
+        "body": { "mode": "raw", "raw": "{ \"email\": \"test@example.com\", \"password\": \"123456\" }" },
+        "url": { "raw": "http://localhost:8080/api/auth/login", "protocol": "http", "host": [ "localhost" ], "port": "8080", "path": [ "api", "auth", "login" ] }
+      }
+    },
+    {
+      "name": "Refresh Token",
+      "request": {
+        "method": "POST",
+        "header": [ { "key": "Content-Type", "value": "application/json" } ],
+        "body": { "mode": "raw", "raw": "{ \"refreshToken\": \"{{refreshToken}}\" }" },
+        "url": { "raw": "http://localhost:8080/api/auth/refresh", "protocol": "http", "host": [ "localhost" ], "port": "8080", "path": [ "api", "auth", "refresh" ] }
+      }
+    },
+    {
+      "name": "Logout",
+      "request": {
+        "method": "POST",
+        "header": [ { "key": "Content-Type", "value": "application/json" } ],
+        "body": { "mode": "raw", "raw": "{ \"refreshToken\": \"{{refreshToken}}\" }" },
+        "url": { "raw": "http://localhost:8080/api/auth/logout", "protocol": "http", "host": [ "localhost" ], "port": "8080", "path": [ "api", "auth", "logout" ] }
+      }
+    },
+    {
+      "name": "Get Public Calorie",
+      "request": {
+        "method": "POST",
+        "header": [ { "key": "Content-Type", "value": "application/json" } ],
+        "body": { "mode": "raw", "raw": "{ \"weight\": 80, \"height\": 175, \"age\": 28, \"targetWeight\": 70, \"bloodType\": \"A\" }" },
+        "url": { "raw": "http://localhost:8080/api/products/public-calorie", "protocol": "http", "host": [ "localhost" ], "port": "8080", "path": [ "api", "products", "public-calorie" ] }
+      }
+    },
+    {
+      "name": "Get User Calorie (requires token)",
+      "request": {
+        "method": "POST",
+        "header": [ { "key": "Content-Type", "value": "application/json" }, { "key": "Authorization", "value": "Bearer {{accessToken}}" } ],
+        "body": { "mode": "raw", "raw": "{ \"weight\": 80, \"height\": 175, \"age\": 28, \"targetWeight\": 70, \"bloodType\": \"A\" }" },
+        "url": { "raw": "http://localhost:8080/api/products/user-calorie", "protocol": "http", "host": [ "localhost" ], "port": "8080", "path": [ "api", "products", "user-calorie" ] }
+      }
+    },
+    {
+      "name": "Search Products (requires token)",
+      "request": {
+        "method": "GET",
+        "header": [ { "key": "Authorization", "value": "Bearer {{accessToken}}" } ],
+        "url": { "raw": "http://localhost:8080/api/products?search=banana", "protocol": "http", "host": [ "localhost" ], "port": "8080", "path": [ "api", "products" ], "query": [ { "key": "search", "value": "banana" } ] }
+      }
+    },
+    {
+      "name": "Add Product To Diary (requires token)",
+      "request": {
+        "method": "POST",
+        "header": [ { "key": "Content-Type", "value": "application/json" }, { "key": "Authorization", "value": "Bearer {{accessToken}}" } ],
+        "body": { "mode": "raw", "raw": "{ \"date\": \"2026-05-20\", \"productId\": \"507f1f77bcf86cd799439011\", \"weight\": 150 }" },
+        "url": { "raw": "http://localhost:8080/api/diary", "protocol": "http", "host": [ "localhost" ], "port": "8080", "path": [ "api", "diary" ] }
+      }
+    },
+    {
+      "name": "Get Diary By Date (requires token)",
+      "request": {
+        "method": "GET",
+        "header": [ { "key": "Authorization", "value": "Bearer {{accessToken}}" } ],
+        "url": { "raw": "http://localhost:8080/api/diary/2026-05-20", "protocol": "http", "host": [ "localhost" ], "port": "8080", "path": [ "api", "diary", "2026-05-20" ] }
+      }
+    },
+    {
+      "name": "Remove Product From Diary (requires token)",
+      "request": {
+        "method": "DELETE",
+        "header": [ { "key": "Authorization", "value": "Bearer {{accessToken}}" } ],
+        "url": { "raw": "http://localhost:8080/api/diary/{{date}}/product/{{productId}}", "protocol": "http", "host": [ "localhost" ], "port": "8080", "path": [ "api", "diary", "{{date}}", "product", "{{productId}}" ] }
+      }
+    }
+  ]
+}

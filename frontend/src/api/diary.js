@@ -22,9 +22,8 @@ export const addProductToDiary = async (data) => {
  * @param {string} productRecordId - Ürünün o günkü listedeki benzersiz _id değeri
  */
 export const removeProductFromDiary = async (date, productRecordId) => {
-  // Backend rotan /:diaryId/product/:productId bekliyor. 
-  // Biz ilk parametreye ne yazarsak yazalım backend onu önemsemiyor, doğrudan sondaki productRecordId ile siliyor.
-  return api.delete(`/diary/bypass/product/${productRecordId}`);
+  // Yeni backend rota: DELETE /api/diary/:date/product/:productId
+  return api.delete(`/diary/${date}/product/${productRecordId}`);
 };
 
 /**

@@ -31,20 +31,13 @@ const calculateDiarySummary = async (userId, diary, targetDate) => {
 };
 
 // 1. QUERY-STRING İLE ÜRÜN ARAMA (GET /api/products?search=banana)
+// Delegasyonu products servis katmanına yapıyoruz (daha temiz mimari)
+const productsService = require('../services/products');
+
 const searchProducts = async (req, res, next) => {
   try {
     const { search } = req.query;
-    if (!search) {
-      return res.status(HTTP_STATUS.OK).json({ status: 'success', data: [] });
-    }
-
-    const products = await Product.find({
-      $or: [
-        { 'title.en': { $regex: search, $options: 'i' } },
-        { 'title.ua': { $regex: search, $options: 'i' } },
-        { 'title.ru': { $regex: search, $options: 'i' } }
-      ]
-    }).limit(20);
+    const products = await productsService.searchProducts(search);
 
     return res.status(HTTP_STATUS.OK).json({ status: 'success', data: products });
   } catch (err) {
@@ -102,42 +95,35 @@ const addProductToDiary = async (req, res, next) => {
 
 const removeProductFromDiary = async (req, res, next) => {
   try {
-    const { productId } = req.params; 
-    const userId = req.user.id; // Diğer fonksiyonlarındaki gibi req.user.id aldık
+    const { productId, date } = req.params;
+    const userId = req.user.id;
 
-    // Senin modelindeki alan adı 'uid' olduğu için sorguyu uid ile yapıyoruz
+    if (!date) {
+      return res.status(HTTP_STATUS.BAD_REQUEST).json({ status: 'fail', message: 'Date param is required' });
+    }
+
+    // Günlüğü uid + date ile bulup içerisindeki eatenProducts dizisinden ilgili productId'yi pull ediyoruz
     const updatedDiary = await Diary.findOneAndUpdate(
-      { 
-        uid: userId, 
-        "eatenProducts._id": productId 
+      {
+        uid: userId,
+        date,
+        'eatenProducts._id': productId
       },
-      { 
-        $pull: { eatenProducts: { _id: productId } } 
+      {
+        $pull: { eatenProducts: { _id: productId } }
       },
       { new: true }
     );
 
     if (!updatedDiary) {
-      return res.status(HTTP_STATUS.NOT_FOUND).json({
-        status: "error",
-        message: "Diary record or product not found for this user",
-      });
+      return res.status(HTTP_STATUS.NOT_FOUND).json({ status: 'error', message: 'Diary for date or product not found' });
     }
 
-    // Ekstra Garanti: Silme işleminden sonra güncel kalori özetini hesaplayıp dönelim
-    const summary = await calculateDiarySummary(userId, updatedDiary, updatedDiary.date);
+    const summary = await calculateDiarySummary(userId, updatedDiary, date);
 
-    return res.status(HTTP_STATUS.OK).json({
-      status: "success",
-      message: "Product successfully removed from diary",
-      data: {
-        date: updatedDiary.date,
-        eatenProducts: updatedDiary.eatenProducts,
-        summary
-      }
-    });
-  } catch (error) {
-    next(error); // Diğer fonksiyonlarındaki gibi hata yönetimini Express next'e bıraktık
+    return res.status(HTTP_STATUS.OK).json({ status: 'success', message: 'Product removed', data: { date: updatedDiary.date, eatenProducts: updatedDiary.eatenProducts, summary } });
+  } catch (err) {
+    next(err);
   }
 };
 

@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { getPublicDailyCalorie, saveUserDailyCalorie } = require('../controllers/products');
-const { searchProducts } = require('../controllers/diary');
+const { getPublicDailyCalorie, saveUserDailyCalorie, searchProducts } = require('../controllers/products');
 const { protect } = require('../middlewares/auth');
 
 // Herkese açık kalori hesaplama endpoint'i (POST /api/products/public-calorie)
