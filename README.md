@@ -30,15 +30,16 @@ Slim Mom helps users calculate their daily calorie intake, track consumed foods,
 
 ## Landing Page
 
-![calculator form with strawberry and banana background](image.png)
+<img width="866" height="695" alt="Screenshot 2026-05-23 at 12 37 04" src="https://github.com/user-attachments/assets/88912d06-e5be-4a5a-ba6a-ae9e619e7404" />
 
 ## Diary Page
 
-![alt text](image-1.png)
+<img width="783" height="709" alt="Screenshot 2026-05-23 at 12 49 22" src="https://github.com/user-attachments/assets/c9db41d1-0de9-4d5a-a7d5-1f5829016091" />
+
 
 ## Calculator Page
 
-![calculator form with strawberry and banana background](image.png)
+<img width="866" height="695" alt="Screenshot 2026-05-23 at 12 37 04" src="https://github.com/user-attachments/assets/88912d06-e5be-4a5a-ba6a-ae9e619e7404" />
 
 ---
 
