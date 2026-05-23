@@ -113,7 +113,7 @@ Slim Mom helps users calculate their daily calorie intake, track consumed foods,
 
 ## Frontend Structure
 
-client/
+frotnend/
 ├── components/
 ├── pages/
 ├── redux/
@@ -123,7 +123,7 @@ client/
 
 ## Backend Structure
 
-server/
+backend/
 ├── controllers/
 ├── routes/
 ├── models/
