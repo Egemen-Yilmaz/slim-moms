@@ -30,16 +30,17 @@ Slim Mom helps users calculate their daily calorie intake, track consumed foods,
 
 ## Landing Page
 
-<img width="866" height="695" alt="Screenshot 2026-05-23 at 12 37 04" src="https://github.com/user-attachments/assets/88912d06-e5be-4a5a-ba6a-ae9e619e7404" />
+<img width="860" height="686" alt="Screenshot 2026-05-23 at 12 53 48" src="https://github.com/user-attachments/assets/d783b1d8-5f5e-4bf5-9594-6dbddf69fc29" />
+
 
 ## Diary Page
 
-<img width="783" height="709" alt="Screenshot 2026-05-23 at 12 49 22" src="https://github.com/user-attachments/assets/c9db41d1-0de9-4d5a-a7d5-1f5829016091" />
+<img width="810" height="707" alt="Screenshot 2026-05-23 at 12 52 56" src="https://github.com/user-attachments/assets/aede0140-a3c0-4718-a56c-5e421069e15c" />
 
 
 ## Calculator Page
 
-<img width="866" height="695" alt="Screenshot 2026-05-23 at 12 37 04" src="https://github.com/user-attachments/assets/88912d06-e5be-4a5a-ba6a-ae9e619e7404" />
+<img width="860" height="686" alt="Screenshot 2026-05-23 at 12 53 48" src="https://github.com/user-attachments/assets/d783b1d8-5f5e-4bf5-9594-6dbddf69fc29" />
 
 ---
 
