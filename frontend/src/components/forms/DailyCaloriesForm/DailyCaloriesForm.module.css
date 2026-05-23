@@ -1,82 +1,148 @@
-.formContainer {
-  width: 100%;
+.container {
   max-width: 600px;
+  width: 100%;
   margin: 0 auto;
-  font-family: "Verdana", sans-serif;
+  padding: 20px;
+  font-family: "Verdana", "Arial", sans-serif;
   box-sizing: border-box;
 }
 
-.formTitle {
-  font-size: 34px;
-  font-weight: bold;
+.title {
+  font-size: 24px;
+  font-weight: 700;
   line-height: 1.4;
   color: #212121;
   margin-bottom: 40px;
 }
 
-.formFields {
+/* Form Grid yapısına geçirildi. Güvenli hizalama sağlar */
+.form {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 30px 40px;
-  margin-bottom: 40px;
+  grid-template-columns: 1fr; /* Mobilde tek sütun */
+  gap: 32px;
+  width: 100%;
+}
+
+.leftColumn,
+.rightColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  width: 100%;
 }
 
 .inputGroup {
   display: flex;
   flex-direction: column;
+  position: relative;
 }
 
-.inputField {
+.input {
   border: none;
   border-bottom: 1px solid #e0e0e0;
-  outline: none;
-  padding: 10px 0;
+  padding: 8px 0;
   font-size: 14px;
+  font-weight: 700;
   color: #212121;
   background: transparent;
+  outline: none;
+  width: 100%;
+  transition: border-color 0.2s ease;
 }
 
-.radioGroup {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
+/* --- OKLARI YOK ETME --- */
+.input::-webkit-outer-spin-button,
+.input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.input[type="number"] {
+  -moz-appearance: textfield;
 }
 
-.radioLabel {
+.input:focus {
+  border-bottom-color: #fc842c;
+}
+.inputError {
+  border-bottom-color: #e11d48;
+}
+
+.label {
   font-size: 14px;
-  font-weight: bold;
+  font-weight: 700;
   color: #9b9b9b;
+  margin-bottom: 8px;
 }
 
-.radioOptions {
+.errorText {
+  color: #e11d48;
+  font-size: 11px;
+  position: absolute;
+  bottom: -20px;
+  left: 0;
+}
+
+/* BUTON SATIRI (CONTAINER) */
+.buttonRow {
+  width: 100%;
   display: flex;
-  gap: 25px;
+  justify-content: center; /* Mobilde ortala */
+  margin-top: 10px;
 }
 
-.radioOption {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  cursor: pointer;
-  font-size: 14px;
-  color: #9b9b9b;
-}
-
-.radioOption input {
-  accent-color: #fc842c;
-  width: 18px;
-  height: 18px;
-}
-
+/* MOBİL BUTON: 182px genişlik */
 .submitBtn {
-  width: 210px;
-  height: 44px;
-  border-radius: 30px;
-  background: #fc842c;
-  color: white;
+  width: 182px;
+  padding: 13px 0;
+  background-color: #fc842c;
+  color: #ffffff;
   border: none;
-  font-weight: bold;
+  border-radius: 30px;
   font-size: 14px;
+  font-weight: 700;
   cursor: pointer;
-  box-shadow: 0px 4px 10px rgba(252, 132, 44, 0.3);
+  box-shadow: 0px 4px 10px rgba(252, 132, 44, 0.4);
+  transition: background-color 0.2s ease;
+  text-align: center;
+}
+
+.submitBtn:hover:not(:disabled) {
+  background-color: #de6e1b;
+}
+.submitBtn:disabled {
+  background-color: #9b9b9b;
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+/* MASAÜSTÜ (DESKTOP) AYARLARI */
+@media (min-width: 768px) {
+  .title {
+    font-size: 34px;
+  }
+
+  /* Form masaüstünde tam 2 eşit sütuna bölünür */
+  .form {
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+  }
+
+  /* Buton satırı 2 sütunu da kaplayacak şekilde alta yerleşir */
+  .buttonRow {
+    grid-column: 1 / -1; /* İlk sütundan son sütuna kadar uzan */
+    justify-content: flex-end; /* İçindeki butonu EN SAĞA yasla */
+    margin-top: 20px;
+  }
+
+  /* Masaüstünde buton otomatik genişlik alır */
+  .submitBtn {
+    width: auto;
+    padding: 13px 32px;
+  }
+}
+@media (min-width: 1280px) {
+  .buttonRow {
+    margin: 0;
+    padding: 0;
+  }
 }

@@ -4,10 +4,7 @@ import css from "./BurgerMenu.module.css";
 export default function BurgerMenu({ closeMenu }) {
   return (
     <div className={css.overlay}>
-      <button onClick={closeMenu} className={css.close}>
-        ✕
-      </button>
-
+      {/* Ekstra çarpı butonu buradan kaldırıldı */}
       <nav className={css.menu}>
         <NavLink to="/diary" onClick={closeMenu}>
           Diary

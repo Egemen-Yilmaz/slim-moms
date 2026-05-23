@@ -6,6 +6,8 @@
   background-color: #f0f1f3;
   padding: 40px 20px;
   box-sizing: border-box;
+  position: relative; /* Yaprağın konumlanabilmesi için taban */
+  overflow: hidden; /* Yaprak döndüğünde taşmalar mobilde ekrana kaydırma çubuğu çıkarmasın */
 }
 
 /* Mobilde gri alanda Hatice ve Exit tamamen gizlenir */
@@ -17,6 +19,8 @@
   display: flex;
   flex-direction: column;
   gap: 40px;
+  position: relative;
+  z-index: 2; /* Yazıların ve sayıların yaprağın üstünde kalmasını sağlar */
 }
 
 .sidebar h3,
@@ -79,6 +83,26 @@
   .foodBlock {
     flex: 1;
   }
+
+  /* 
+    TABLETTE YAPRAK: 
+    Tam 270 derece döndürülmüş ve yazılara dokunmayan bağımsız katman.
+  */
+  .sidebar::before {
+    content: "";
+    position: absolute;
+    bottom: -10px; /* Döndüğü için alt ve sağ koordinatlarını dengeledik */
+    right: -10px;
+    width: 280px;
+    height: 280px;
+    background-image: url("../../assets/images/leaf.svg");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: bottom right;
+    transform: rotate(0deg); /* İstediğin tam 270 derecelik dönüş açısı */
+    z-index: 1; /* Yazıların arkasında kalması için */
+    pointer-events: none; /* Altındaki linklerin tıklanmasını engellemez */
+  }
 }
 
 /* ==========================================================================
@@ -92,6 +116,7 @@
     position: fixed;
     right: 0;
     top: 0;
+    overflow: hidden; /* Büyük yaprağın tüm sayfaya yayılırken taşan kısımlarını keser */
   }
 
   /* Sadece masaüstünde geri gelir ve yukarıdaki navbar çizgisine (top: 35px) oturur */
@@ -101,10 +126,25 @@
     top: 35px;
     right: 94px;
     align-items: center;
+    z-index: 3;
   }
 
   .contentWrapper {
     flex-direction: column;
     gap: 40px;
+  }
+
+  /* 
+    MASAÜSTÜNDE YAPRAK: 
+    Soldan sağa doğru tüm sidebar boyu (512px) yayılır.
+  */
+  .sidebar::before {
+    bottom: 20%;
+    right: 0;
+    width: 100%; /* Tüm RightSideBar genişliği boyunca soldan sağa yayılmasını sağlar */
+    height: 100%; /* Yükseklik olarak da zemine yayılması için */
+    background-size: 100% auto; /* Görsel oranını bozmadan enlemesine genişletir */
+    background-position: bottom right;
+    transform: rotate(0deg);
   }
 }

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { api } from "../../../api/axios.js";
 import { toast } from "react-toastify";
-import css from "./dailyCaloriesForm.module.css";
+import css from "./DailyCaloriesForm.module.css";
 
 export default function DailyCaloriesForm({ openModal, isPrivate = false }) {
   const [formData, setFormData] = useState({
@@ -75,9 +75,10 @@ export default function DailyCaloriesForm({ openModal, isPrivate = false }) {
   return (
     <div className={css.container}>
       <h1 className={css.title}>
-        Calculate your daily <br /> calorie intake right now
+        Calculate your daily calorie intake right now
       </h1>
       <form onSubmit={handleSubmit} className={css.form} noValidate>
+        {/* SOL SÜTUN */}
         <div className={css.leftColumn}>
           <div className={css.inputGroup}>
             <input
@@ -117,6 +118,8 @@ export default function DailyCaloriesForm({ openModal, isPrivate = false }) {
             )}
           </div>
         </div>
+
+        {/* SAĞ SÜTUN */}
         <div className={css.rightColumn}>
           <div className={css.inputGroup}>
             <input
@@ -146,9 +149,13 @@ export default function DailyCaloriesForm({ openModal, isPrivate = false }) {
             </select>
           </div>
         </div>
-        <button type="submit" disabled={loading} className={css.submitBtn}>
-          {loading ? "Calculating..." : "Start losing weight"}
-        </button>
+
+        {/* BUTON İÇİN AYRI BİR ROW ALANI AÇILDI */}
+        <div className={css.buttonRow}>
+          <button type="submit" disabled={loading} className={css.submitBtn}>
+            {loading ? "Calculating..." : "Start losing weight"}
+          </button>
+        </div>
       </form>
     </div>
   );
