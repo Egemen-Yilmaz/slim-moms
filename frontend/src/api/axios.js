@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const api = axios.create({
-  baseURL: "https://slim-moms-backend-xkg6.onrender.com/",
+  baseURL: "https://slim-moms-backend-xkg6.onrender.com/api",
 });
 
 // REQUEST: token ekleme
