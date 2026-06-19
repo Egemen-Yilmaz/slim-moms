@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import DiaryDateCalendar from "../../components/diary/DiaryDateCalendar/DiaryDateCalendar";
 import DiaryAddProductForm from "../../components/forms/DiaryAddProductForm/DiaryAddProductForm";
 import DiaryProductsList from "../../components/diary/DiaryProductsList/DiaryProductsList";
@@ -30,11 +30,7 @@ export default function DiaryPage() {
   }, []);
 
   // 2. Tarih her değiştiğinde günlüğü çek
-  useEffect(() => {
-    fetchDiaryData(selectedDate);
-  }, [selectedDate]);
-
-  const fetchDiaryData = async (date) => {
+  const fetchDiaryData = useCallback(async (date) => {
     try {
       const res = await getDiaryByDate(date);
       setEatenProducts(res.data?.data?.eatenProducts || []);
@@ -44,7 +40,14 @@ export default function DiaryPage() {
     } catch (err) {
       console.error("Diary veri çekme hatası:", err);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    // call the declared function whenever selectedDate changes
+    (async () => {
+      await fetchDiaryData(selectedDate);
+    })();
+  }, [selectedDate, fetchDiaryData]);
 
   const handleAddProduct = async (productData) => {
     try {

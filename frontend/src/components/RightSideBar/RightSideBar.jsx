@@ -22,22 +22,25 @@ export default function RightSideBar() {
 
   // 1. İlk açılışta ve tarih değiştiğinde veriyi çek
   useEffect(() => {
-    fetchSidebarData(currentDate);
+    // call async function to avoid synchronous setState inside effect body
+    (async () => {
+      await fetchSidebarData(currentDate);
+    })();
   }, [currentDate, fetchSidebarData]);
 
   // 2. Sol taraftan (DiaryPage) gelen canlı güncellemeleri dinle
   useEffect(() => {
     const handleDiaryUpdate = (event) => {
       const updatedDate = event.detail || currentDate;
+      // update the date; the other effect will react to this change and fetch data
       setCurrentDate(updatedDate);
-      fetchSidebarData(updatedDate); // Doğrudan güncel veriyi iste
     };
 
     window.addEventListener("diary-updated", handleDiaryUpdate);
     return () => {
       window.removeEventListener("diary-updated", handleDiaryUpdate);
     };
-  }, [currentDate, fetchSidebarData]);
+  }, [currentDate]);
 
   // Veri eşitleme (Senin yazdığın güvenli map yapısı)
   const dailyCalorieIntake =
