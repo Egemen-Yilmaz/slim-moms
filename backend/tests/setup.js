@@ -1,9 +1,15 @@
 const mongoose = require('mongoose');
+require('dotenv').config();
+
+const uri = process.env.MONGODB_URI;
 
 module.exports.connect = async () => {
-  const uri = process.env.MONGO_URI_TEST || 'mongodb+srv://egemenylmz01_db_user:uoc9B26S7etROoQX@cluster-slim-mom.uvzvxcs.mongodb.net/slim-moms-test?appName=Cluster-slim-mom';
-  
-  await mongoose.connect(uri);
+  if (!uri) {
+    throw new Error("Testler başlatılamadı: .env dosyasında MONGODB_URI tanımlı değil!");
+  }
+  if (mongoose.connection.readyState === 0) {
+    await mongoose.connect(uri);
+  }
 };
 
 module.exports.closeDatabase = async () => {
