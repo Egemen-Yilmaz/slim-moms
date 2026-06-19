@@ -1,23 +1,24 @@
 const mongoose = require('mongoose');
-const { MongoMemoryServer } = require('mongodb-memory-server');
-let mongoServer;
 
 module.exports.connect = async () => {
-  mongoServer = await MongoMemoryServer.create();
-  const uri = mongoServer.getUri();
-  await mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+  const uri = process.env.MONGO_URI_TEST || 'mongodb+srv://egemenylmz01_db_user:uoc9B26S7etROoQX@cluster-slim-mom.uvzvxcs.mongodb.net/slim-moms-test?appName=Cluster-slim-mom';
+  
+  await mongoose.connect(uri);
 };
 
 module.exports.closeDatabase = async () => {
-  await mongoose.connection.dropDatabase();
-  await mongoose.connection.close();
-  if (mongoServer) await mongoServer.stop();
+  if (mongoose.connection.readyState !== 0) {
+    await mongoose.connection.dropDatabase();
+    await mongoose.connection.close();
+  }
 };
 
 module.exports.clearDatabase = async () => {
-  const collections = mongoose.connection.collections;
-  for (const key in collections) {
-    const collection = collections[key];
-    await collection.deleteMany();
+  if (mongoose.connection.readyState !== 0) {
+    const collections = mongoose.connection.collections;
+    for (const key in collections) {
+      const collection = collections[key];
+      await collection.deleteMany({});
+    }
   }
 };
