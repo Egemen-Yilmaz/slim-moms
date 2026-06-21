@@ -1,7 +1,8 @@
 import axios from "axios";
 
+// API adresini kodun içine gömmek yerine .env dosyasından okuyoruz (GoIT Kriteri)
 export const api = axios.create({
-  baseURL: "https://slim-moms-backend-xkg6.onrender.com/api",
+  baseURL: import.meta.env.VITE_API_URL || "https://slim-moms-n24e.onrender.com/api",
 });
 
 // REQUEST: token ekleme
